@@ -10,17 +10,21 @@
 </head>
 
 <body>
-</body>
-
-<script id="mainTmpl" type="x-tmpl-mustache">
   <h1>
     <span>Good Habits</span>
   </h1>
 
+  <form id="newHabit">
+    <input type="text" placeholder="New habit" />
+  </form>
+
+  <div id="habits"></div>
+</body>
+
+<script id="habitsTmpl" type="x-tmpl-mustache">
   <ul>
   {{#habits}}
     <li>{{name}}</li>
   {{/habits}}
   </ul>
-
 </script>

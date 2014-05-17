@@ -15,15 +15,24 @@ addTestHabits = function() {
   addHabit('Go running')
 }
 
-renderMain = function() {
-  var tmpl = $('#mainTmpl').html()
+renderHabits = function() {
+  var tmpl = $('#habitsTmpl').html()
   var out = Mustache.render(tmpl, {habits: habits});
-  $('body').html(out);
+  $('#habits').html(out);
 }
 
 $(function() {
   addTestHabits();
-  renderMain();
+
+  $('#newHabit').submit(function(event) {
+    name = $('input').val()
+    addHabit(name)
+    $('input')[0].value = ""
+    renderHabits()
+    event.preventDefault()
+  });
+
+  renderHabits();
 });
 
 
