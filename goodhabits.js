@@ -2,12 +2,24 @@ var habits = [];
 
 addHabit = function(name) {
   newHabit = {
+    id: habits.length,
     name: name,
     history: []
   }
 
   habits.push(newHabit)
+ 
   HabitDB.saveHabits()
+  renderHabits();
+}
+
+trashHabit = function(id) {
+  habits.remove(function(h){
+    return h.id == id
+  });
+
+  HabitDB.saveHabits();
+  renderHabits();
 }
 
 renderHabits = function() {
@@ -41,13 +53,11 @@ $(function() {
 
   $('#newHabit').submit(function(event) {
     name = $('input').val()
-    addHabit(name)
     $('input')[0].value = ""
-    renderHabits()
     event.preventDefault()
+    
+    addHabit(name)
   });
-
-  renderHabits();
 });
 
 
