@@ -1,0 +1,26 @@
+<head>
+	<title>GoodHabits.js</title>
+
+  <link type="text/css" href="css/pure-min.css" rel="stylesheet"/>
+  <link type="text/css" href="css/style.css" rel="stylesheet"/>
+  <script type="text/javascript" src="lib/sugarjs_1_4_1.js"></script>
+  <script type="text/javascript" src="lib/jquery-2.1.1.min.js"></script>
+  <script type="text/javascript" src="lib/mustache.js"></script>
+  <script type="text/javascript" src="goodhabits.js"></script>
+</head>
+
+<body>
+</body>
+
+<script id="mainTmpl" type="x-tmpl-mustache">
+  <h1>
+    <span>Good Habits</span>
+  </h1>
+
+  <ul>
+  {{#habits}}
+    <li>{{name}}</li>
+  {{/habits}}
+  </ul>
+
+</script>

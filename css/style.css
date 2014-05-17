@@ -1,0 +1,35 @@
+body {
+  font-family: helvetica;
+}
+
+h1 {
+  font-size: 20px
+}
+
+h1 span {
+  padding: 10px;
+}
+
+.habits li {
+  font-size: 2em;
+  list-style: none;
+  clear: both;
+  margin-top: 10px;
+}
+
+.habits span {
+  width: 15px;
+  height: 15px;
+  display: block;
+  float: left;
+  background-color: green;
+  padding: 2px;
+  margin: 2px;
+  border-radius: 5px;
+}
+
+.habits div {
+  margin-left: 20px;
+  padding-left: 20px;
+}
+
