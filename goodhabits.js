@@ -7,12 +7,7 @@ addHabit = function(name) {
   }
 
   habits.push(newHabit)
-}
-
-addTestHabits = function() {
-  addHabit('Floss')
-  addHabit('Zero Inbox')
-  addHabit('Go running')
+  HabitDB.saveHabits()
 }
 
 renderHabits = function() {
@@ -21,8 +16,28 @@ renderHabits = function() {
   $('#habits').html(out);
 }
 
+var HabitDB = {
+  loadHabits: function() {
+    if (Lawnchair) {
+      db = Lawnchair({name:'gh-db', adapter:'indexed-db'}, function(db) {
+        db.get('habits', function(rec) {
+          if (rec) {
+            habits = rec.values
+          }
+
+          renderHabits();
+        });
+      });
+    }
+  },
+
+  saveHabits: function() {
+    db.save({key: 'habits', values: habits})
+  },
+}
+
 $(function() {
-  addTestHabits();
+  HabitDB.loadHabits();
 
   $('#newHabit').submit(function(event) {
     name = $('input').val()
