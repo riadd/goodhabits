@@ -12,8 +12,10 @@ onHabitChanged = function() {
 }
 
 addHabit = function(name) {
+  maxId = habits.max(function(h){return h.id}).id;
+
   newHabit = {
-    id: "habit-"+habits.length,
+    id: maxId+1,
     name: name,
     history: []
   }
@@ -64,7 +66,7 @@ renderHabits = function() {
     }
 
     date = Date.create()
-    for (var i=0; i<3; i++) {
+    for (var i=0; i<5; i++) {
       dateEntry = {
         id: h.id,
         checked: hasHabitDate(h.id, date) ? "checked" : "",
