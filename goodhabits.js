@@ -59,7 +59,8 @@ renderHabits = function() {
     habit = {
       id: h.id,
       name: h.name,
-      recentDays: []
+      recentDays: [],
+      trash: '<a onclick="trashHabit(\''+h.id+'\')">trash</a>'
     }
 
     date = Date.create()
