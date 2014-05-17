@@ -6,6 +6,11 @@ getHabit = function(id) {
   return habit;
 }
 
+onHabitChanged = function() {
+  HabitDB.saveHabits()
+  renderHabits();
+}
+
 addHabit = function(name) {
   newHabit = {
     id: "habit-"+habits.length,
@@ -14,25 +19,18 @@ addHabit = function(name) {
   }
 
   habits.push(newHabit)
- 
-  HabitDB.saveHabits()
-  renderHabits();
+  onHabitChanged()
 }
 
 trashHabit = function(id) {
-  habits.remove(function(h){
-    return h.id == id
-  });
-
-  HabitDB.saveHabits();
-  renderHabits();
+  habits.remove(function(h){return h.id == id});
+  onHabitChanged()
 }
-
 
 hasHabitDate = function(id, date) {
   var habit = getHabit(id)
-
   date = date.beginningOfDay()
+
   return habit.history.any(function(d) {
     return d.beginningOfDay().is(date)
   })
@@ -48,8 +46,7 @@ toggleHabitDate = function(id, date) {
     habit.history.push(date);
   }
 
-  HabitDB.saveHabits()
-  renderHabits()
+  onHabitChanged();
 }
 
 assert = function(expr) {
