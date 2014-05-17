@@ -26,7 +26,14 @@
 <script id="habitsTmpl" type="x-tmpl-mustache">
   <ul>
   {{#habits}}
-    <li>{{name}} <small><a onclick="trashHabit({{id}})">trash</a></small></li>
+    <li>
+      {{#recentDays}}
+        <input type="checkbox" data-id={{id}} data-date={{date}} {{checked}}>
+      {{/recentDays}}
+
+      {{name}} 
+      <small><a onclick="trashHabit('{{id}}')">trash</a></small>
+    </li>
   {{/habits}}
   </ul>
 </script>
