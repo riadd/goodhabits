@@ -21,19 +21,35 @@
   </form>
 
   <div id="habits"></div>
+  <div id="details"></div>
 </body>
 
 <script id="habitsTmpl" type="x-tmpl-mustache">
   <ul>
-  {{#habits}}
-    <li>
-      {{#recentDays}}
-        <input type="checkbox" data-id={{id}} data-date={{date}} {{checked}}>
-      {{/recentDays}}
+    {{#habits}}
+      <li data-id={{id}}>
+        {{#recentDays}}
+          <input type="checkbox" title="{{title}}" data-date={{date}} {{checked}}>
+        {{/recentDays}}
 
-      {{name}} 
-      <small>{{{trash}}}</small>
-    </li>
-  {{/habits}}
+        <span>{{name}}</span>
+        <small>{{{trash}}}</small>
+      </li>
+    {{/habits}}
+  </ul>
+</script>
+
+
+<script id="habitDetailsTmpl" type="x-tmpl-mustache">
+  <h2>{{name}}</h2>
+
+  <form id="newNote">
+    <input type="text" placeholder="New Note" />
+  </form>
+
+  <ul>
+    {{#notes}}
+      <li>{{text}} <small>({{date}})</small></li>
+    {{/notes}}
   </ul>
 </script>

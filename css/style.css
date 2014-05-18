@@ -11,17 +11,15 @@ h1 {
 
 #habits {
   font-size: 1.1em;
+  float: left;
 }
 
 #habits small {
   font-size: 0.5em;
 }
 
-.habits li {
-  font-size: 2em;
-  list-style: none;
-  clear: both;
-  margin-top: 10px;
+#habits li span:hover {
+  background: #ddd;
 }
 
 .habits span {
@@ -40,3 +38,17 @@ h1 {
   padding-left: 20px;
 }
 
+/* details */
+
+#details {
+  display: none;
+  float: right;
+  width: 500px;
+  border: 2px solid black;
+  padding: 10px;
+}
+
+#details h2 {
+  font-size: 1.2em;
+  margin: 0;
+}
