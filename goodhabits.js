@@ -99,7 +99,8 @@ renderHabitList = function() {
       id: h.id,
       name: h.name,
       recentDays: [],
-      times: h.history.length
+      times: h.history.length,
+      notes: h.notes.length
     }
 
     date = Date.create()
