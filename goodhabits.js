@@ -35,8 +35,8 @@ addHabit = function(name) {
   onHabitChanged()
 }
 
-addHabitNote = function(note) {
-  var habit = getHabit(showingHabitDetails)
+addHabitNote = function(id, note) {
+  var habit = getHabit(id)
 
   newNote = {
     text: note,
@@ -49,7 +49,12 @@ addHabitNote = function(note) {
 
 trashHabit = function(id) {
   habits.remove(function(h){return h.id == id});
+
+  if (showingHabitDetails == id)
+    showingHabitDetails = null
+
   onHabitChanged()
+
 }
 
 hasHabitDate = function(id, date) {
@@ -89,14 +94,15 @@ showHabitDetails = function(id) {
 }
 
 renderHabitDetails = function() {
-  if (!showingHabitDetails)
-    return;
+  if (!showingHabitDetails) {
+    $('#details').hide()  
+    return
+  }
 
   habit = getHabit(showingHabitDetails)
 
-
-
   outHabitDetails = {
+    id: habit.id,
     name: habit.name,
     notes: habit.notes.map(function(n) {
       return {
@@ -115,8 +121,12 @@ renderHabitDetails = function() {
     $('#details input')[0].value = ""
     event.preventDefault()
 
-    addHabitNote(txt)
+    addHabitNote(showingHabitDetails, txt)
   });
+
+  $('#details .trash').click(function(e) {
+    trashHabit(showingHabitDetails)
+  })
 }
 
 renderHabits = function() {
@@ -124,8 +134,7 @@ renderHabits = function() {
     habit = {
       id: h.id,
       name: h.name,
-      recentDays: [],
-      trash: '<a onclick="trashHabit(\''+h.id+'\')">trash</a>'
+      recentDays: []
     }
 
     date = Date.create()

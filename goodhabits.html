@@ -3,6 +3,7 @@
 
   <link type="text/css" href="css/pure-min.css" rel="stylesheet"/>
   <link type="text/css" href="css/style.css" rel="stylesheet"/>
+  <link href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
   <script type="text/javascript" src="lib/sugarjs_1_4_1.js"></script>
   <script type="text/javascript" src="lib/jquery-2.1.1.min.js"></script>
   <script type="text/javascript" src="lib/mustache.js"></script>
@@ -33,7 +34,6 @@
         {{/recentDays}}
 
         <span>{{name}}</span>
-        <small>{{{trash}}}</small>
       </li>
     {{/habits}}
   </ul>
@@ -52,4 +52,6 @@
       <li>{{text}} <small>({{date}})</small></li>
     {{/notes}}
   </ul>
+
+  <div class="trash"><i class="fa fa-trash-o"></i></div>
 </script>
