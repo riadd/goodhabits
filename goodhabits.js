@@ -4,7 +4,7 @@ var habits = [];
 
 onHabitChanged = function() {
   HabitDB.saveHabits()
-  renderHabits()
+  renderHabitList()
   renderHabitDetails()
 }
 
@@ -93,48 +93,13 @@ showHabitDetails = function(id) {
   renderHabitDetails()
 }
 
-renderHabitDetails = function() {
-  if (!showingHabitDetails) {
-    $('#details').hide()  
-    return
-  }
-
-  habit = getHabit(showingHabitDetails)
-
-  outHabitDetails = {
-    id: habit.id,
-    name: habit.name,
-    notes: habit.notes.map(function(n) {
-      return {
-        text: n.text,
-        date: n.date.format('{dd}.{MM}.{yyyy}')
-      }
-    })
-  }
-
-  var tmpl = $('#habitDetailsTmpl').html()
-  var out = Mustache.render(tmpl, outHabitDetails);
-  $('#details').html(out).show();
-
-  $('#newNote').submit(function(event) {
-    txt = $('#details input').val()
-    $('#details input')[0].value = ""
-    event.preventDefault()
-
-    addHabitNote(showingHabitDetails, txt)
-  });
-
-  $('#details .trash').click(function(e) {
-    trashHabit(showingHabitDetails)
-  })
-}
-
-renderHabits = function() {
+renderHabitList = function() {
   outHabits = habits.map(function(h){
     habit = {
       id: h.id,
       name: h.name,
-      recentDays: []
+      recentDays: [],
+      times: h.history.length
     }
 
     date = Date.create()
@@ -168,6 +133,46 @@ renderHabits = function() {
   })
 }
 
+renderHabitDetails = function() {
+  if (!showingHabitDetails) {
+    $('#details').hide()  
+    return
+  }
+
+  habit = getHabit(showingHabitDetails)
+
+  outHabitDetails = {
+    id: habit.id,
+    name: habit.name,
+    notes: habit.notes.map(function(n) {
+      return {
+        text: n.text,
+        date: n.date.format('{dd}.{MM}.{yyyy}')
+      }
+    })
+  }
+
+  var tmpl = $('#habitDetailsTmpl').html()
+  var out = Mustache.render(tmpl, outHabitDetails);
+  $('#details').html(out).show();
+
+  $('#newNote').submit(function(event) {
+    txt = $('#details input').val()
+    $('#details input')[0].value = ""
+    event.preventDefault()
+
+    addHabitNote(showingHabitDetails, txt)
+  });
+
+  $('#details .close').click(function(e) {
+    showHabitDetails()
+  })
+
+  $('#details .trash').click(function(e) {
+    trashHabit(showingHabitDetails)
+  })
+}
+
 // controller
 
 var HabitDB = {
@@ -188,7 +193,7 @@ var HabitDB = {
             return h;
           })
 
-          renderHabits()
+          renderHabitList()
         });
       });
     }

@@ -34,6 +34,11 @@
         {{/recentDays}}
 
         <span>{{name}}</span>
+
+        {{#times}}
+          <small>{{times}} times</small>
+        {{/times}}
+
       </li>
     {{/habits}}
   </ul>
@@ -41,6 +46,8 @@
 
 
 <script id="habitDetailsTmpl" type="x-tmpl-mustache">
+  <div class="close"><i class="fa fa-times-circle"></i></div>
+
   <h2>{{name}}</h2>
 
   <form id="newNote">

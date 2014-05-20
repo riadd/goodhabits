@@ -53,6 +53,12 @@ h1 {
   margin: 0;
 }
 
+#details .close {
+  float: right;
+  text-align: right;
+  color: gray;
+}
+
 #details .trash {
   text-align: right;
   color: gray;
