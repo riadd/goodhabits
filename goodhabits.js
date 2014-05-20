@@ -118,6 +118,8 @@ renderHabitList = function() {
     return habit;
   });
 
+  outHabits = outHabits.sortBy(function(h){return h.times}, true)
+
   var tmpl = $('#habitsTmpl').html()
   var out = Mustache.render(tmpl, {habits: outHabits})
   $('#habits').html(out)
