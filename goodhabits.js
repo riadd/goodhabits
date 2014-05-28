@@ -94,13 +94,25 @@ showHabitDetails = function(id) {
 }
 
 renderHabitList = function() {
+  relativeTime = function(habit) {
+    last = habit.history.last()
+
+    if (!last) return null
+    daysAgo = Date.create(last).daysAgo()
+    if (daysAgo > 0)
+      return  daysAgo + " days ago"
+    else
+      return "today"
+  }
+
   outHabits = habits.map(function(h){
     habit = {
       id: h.id,
       name: h.name,
       recentDays: [],
       times: h.history.length,
-      notes: h.notes.length
+      notes: h.notes.length,
+      lastTime: relativeTime(h)
     }
 
     date = Date.create()
