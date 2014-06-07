@@ -116,7 +116,7 @@ renderHabitList = function() {
     }
 
     date = Date.create()
-    for (var i=0; i<5; i++) {
+    for (var i=0; i<14; i++) {
       dateEntry = {
         id: h.id,
         checked: hasHabitDate(h.id, date) ? "checked" : "",
