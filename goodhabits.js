@@ -4,6 +4,7 @@ var habits = [];
 
 onHabitChanged = function() {
   HabitDB.saveHabits()
+  renderShortList()
   renderHabitList()
   renderHabitDetails()
 }
@@ -91,6 +92,22 @@ var showingHabitDetails;
 showHabitDetails = function(id) {
   showingHabitDetails = id
   renderHabitDetails()
+}
+
+renderShortList = function() {
+  date = Date.create()
+  counts = []
+
+  for (var i=0; i<14; i++) {
+    count = habits.count(function(h) {
+      return hasHabitDate(h.id, date)
+    })
+
+    counts.unshift(count)
+    date.rewind({day:1})
+  }
+
+  $('#shortList').html(counts.join(','))
 }
 
 renderHabitList = function() {
@@ -208,6 +225,7 @@ var HabitDB = {
             return h;
           })
 
+          renderShortList()
           renderHabitList()
         });
       });
