@@ -99,15 +99,39 @@ renderShortList = function() {
   counts = []
 
   for (var i=0; i<14; i++) {
-    count = habits.count(function(h) {
-      return hasHabitDate(h.id, date)
+    counts.unshift({
+      count: habits.count(function(h) {return hasHabitDate(h.id, date)}),
+      date: date.clone()
     })
 
-    counts.unshift(count)
     date.rewind({day:1})
   }
 
-  $('#shortList').html(counts.join(','))
+  var data = {
+    labels: counts.map(function(c) {return c.date.format('{yyyy}-{MM}-{dd}')}),
+    datasets: [
+        {
+            fillColor: "rgba(220,220,220,0.2)",
+            strokeColor: "rgba(220,220,220,1)",
+            pointColor: "rgba(220,220,220,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(220,220,220,1)",
+            data: counts.map(function(c) {return c.count})
+        }
+    ]
+  };
+
+  var options = {
+    legendTemplate: '',
+    scaleShowLabels: false,
+    scaleLabel: "<%=value%>AAA",
+    bezierCurve: true,
+    skipLabels: 5
+  };
+
+  ctx = $('#habitGraph').get(0).getContext('2d')
+  new Chart(ctx).Line(data, options)
 }
 
 renderHabitList = function() {

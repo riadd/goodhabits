@@ -108,3 +108,9 @@ input[type="checkbox"] + span:before {
 input[type="checkbox"]:checked + span:before {
   content: "\f046"; /* check */
 }
+
+/* habitGraph */
+
+#habitGraph {
+  color: black;
+}

@@ -9,6 +9,7 @@
   <script type="text/javascript" src="lib/mustache.js"></script>
   <script type="text/javascript" src="lib/lawnchair-0.6.1.js"></script>
   <script type="text/javascript" src="lib/indexed-db.js"></script>
+  <script type="text/javascript" src="lib/chart.js"></script>
   <script type="text/javascript" src="goodhabits.js"></script>
 </head>
 
@@ -21,7 +22,8 @@
     <input type="text" placeholder="New habit" />
   </form>
 
-  <div id="shortList"></div>
+  <canvas id="habitGraph" width="800" height="250"></canvas>
+
   <div id="habits"></div>
   <div id="details"></div>
 </body>
