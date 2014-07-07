@@ -63,3 +63,14 @@ h1 {
   text-align: right;
   color: gray;
 }
+
+#details ul {
+  padding: 0;
+}
+
+#details li {
+  padding: 3px;
+  margin: 5px;
+  list-style: none;
+  background: #eee;
+}
