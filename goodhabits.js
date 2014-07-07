@@ -3,26 +3,26 @@ var habits = [];
 // model code
 
 onHabitChanged = function() {
-  HabitDB.saveHabits()
-  renderShortList()
-  renderHabitList()
-  renderHabitDetails()
-}
+  HabitDB.saveHabits();
+  renderShortList();
+  renderHabitList();
+  renderHabitDetails();
+};
 
 getHabit = function(id) {
-  var habit = habits.find(function(h){return h.id == id})
-  assert(habit)
+  var habit = habits.find(function(h){return h.id == id;});
+  assert(habit);
   return habit;
-}
+};
 
 addHabit = function(name) {
   if (habits.length>0) {
-    maxId = habits.max(function(h){return h.id}).id
+    maxId = habits.max(function(h){return h.id;}).id;
     
   } else {
     // this will make the id's start with 1 which makes it easier to
     // check for valid IDs if they can't be zero
-    maxId = 0
+    maxId = 0;
   }
 
   newHabit = {
@@ -30,14 +30,14 @@ addHabit = function(name) {
     name: name,
     history: [],
     notes: []
-  }
+  };
 
   habits.push(newHabit)
   onHabitChanged()
 }
 
 addHabitNote = function(id, note) {
-  var habit = getHabit(id)
+  var habit = getHabit(id);
 
   newNote = {
     text: note,
@@ -90,9 +90,9 @@ assert = function(expr) {
 var showingHabitDetails;
 
 showHabitDetails = function(id) {
-  showingHabitDetails = id
-  renderHabitDetails()
-}
+  showingHabitDetails = id;
+  renderHabitDetails();
+};
 
 renderShortList = function() {
   date = Date.create()
@@ -200,7 +200,10 @@ renderHabitDetails = function() {
   outHabitDetails = {
     id: habit.id,
     name: habit.name,
-    notes: habit.notes.map(function(n) {
+    notes: habit.notes.sortBy(function(n) {
+      return n.date;
+
+    }, true).map(function(n) {
       return {
         text: n.text,
         date: n.date.format('{dd}.{MM}.{yyyy}')
