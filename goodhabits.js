@@ -117,7 +117,7 @@ renderShortList = function() {
             pointStrokeColor: "#fff",
             pointHighlightFill: "#fff",
             pointHighlightStroke: "rgba(220,220,220,1)",
-            data: counts.map(function(c) {return c.count})
+            data: counts.map(function(c) {return c.count;})
         }
     ]
   };
@@ -130,69 +130,77 @@ renderShortList = function() {
     skipLabels: 5
   };
 
-  ctx = $('#habitGraph').get(0).getContext('2d')
-  new Chart(ctx).Line(data, options)
-}
+  ctx = $('#habitGraph').get(0).getContext('2d');
+  new Chart(ctx).Line(data, options);
+};
 
 renderHabitList = function() {
   relativeTime = function(habit) {
-    last = habit.history.last()
+    last = habit.history.last();
+    if (!last) return null;
 
-    if (!last) return null
-    daysAgo = Date.create(last).daysAgo()
-    if (daysAgo > 0)
-      return  daysAgo + " days ago"
-    else
-      return "today"
-  }
+    return Date.create(last).daysAgo();
+  };
 
   outHabits = habits.map(function(h){
+    daysAgo = relativeTime(h);
+
+    if (daysAgo === null)
+      timeTxt = "";
+    else if (daysAgo > 0)
+      timeTxt = daysAgo + " days ago";
+    else
+      timeTxt = "today";
+
     habit = {
       id: h.id,
       name: h.name,
       recentDays: [],
       times: h.history.length,
       notes: h.notes.length,
-      lastTime: relativeTime(h)
-    }
+      timeTxt: timeTxt,
+      daysAgo: daysAgo === null ? 1000 : daysAgo
+    };
 
-    date = Date.create()
+    date = Date.create();
     for (var i=0; i<14; i++) {
       dateEntry = {
         id: h.id,
         checked: hasHabitDate(h.id, date) ? "checked" : "",
         date: date.format('{yyyy}-{MM}-{dd}'),
         title: date.format('{Weekday} {dd}.{MM}.{yyyy}')
-      }
+      };
 
       habit.recentDays.unshift(dateEntry);
-      date.rewind({day:1})
+      date.rewind({day:1});
     }
 
     return habit;
   });
 
-  outHabits = outHabits.sortBy(function(h){return h.times}, true)
+  outHabits = outHabits.sortBy(function(h) {
+    return h.daysAgo * 1000 - h.times;
+  });
 
-  var tmpl = $('#habitsTmpl').html()
-  var out = Mustache.render(tmpl, {habits: outHabits})
-  $('#habits').html(out)
+  var tmpl = $('#habitsTmpl').html();
+  var out = Mustache.render(tmpl, {habits: outHabits});
+  $('#habits').html(out);
 
   $('input[type="checkbox"]').change(function (e) {
-    id = $(this).closest('li').data('id')
-    toggleHabitDate(id, Date.create(this.dataset.date))
-  })
+    id = $(this).closest('li').data('id');
+    toggleHabitDate(id, Date.create(this.dataset.date));
+  });
 
   $('#habits span').click(function(e) {
-    id = $(this).closest('li').data('id')
-    showHabitDetails(id)
-  })
-}
+    id = $(this).closest('li').data('id');
+    showHabitDetails(id);
+  });
+};
 
 renderHabitDetails = function() {
   if (!showingHabitDetails) {
     $('#details').hide()  
-    return
+    return;
   }
 
   habit = getHabit(showingHabitDetails)
