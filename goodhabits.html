@@ -61,13 +61,15 @@
 
   <h2>{{name}}</h2>
 
+  <div class="stats">{{times}} times</div>
+
   <form id="newNote">
     <input type="text" placeholder="New Note" />
   </form>
 
   <ul>
     {{#notes}}
-      <li><div>{{text}}</div><span>({{date}})</span></li>
+      <li><div>{{text}}</div><span>{{date}}</span></li>
     {{/notes}}
   </ul>
 

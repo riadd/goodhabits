@@ -200,6 +200,7 @@ renderHabitDetails = function() {
   outHabitDetails = {
     id: habit.id,
     name: habit.name,
+    times: habit.history.length,
     notes: habit.notes.sortBy(function(n) {
       return n.date;
 
