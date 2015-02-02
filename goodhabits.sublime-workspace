@@ -1,0 +1,522 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "css/mobile-style.css",
+			"settings":
+			{
+				"buffer_size": 19,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "mobile.html",
+			"settings":
+			{
+				"buffer_size": 2008,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "goodhabits.js",
+			"settings":
+			{
+				"buffer_size": 5909,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "<head>\n	<title>GoodHabits.js</title>\n\n  <link type=\"text/css\" href=\"css/pure-min.css\" rel=\"stylesheet\"/>\n  <link type=\"text/css\" href=\"css/style.css\" rel=\"stylesheet\"/>\n  <link href=\"http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css\" rel=\"stylesheet\">\n  <script type=\"text/javascript\" src=\"lib/sugarjs_1_4_1.js\"></script>\n  <script type=\"text/javascript\" src=\"lib/jquery-2.1.1.min.js\"></script>\n  <script type=\"text/javascript\" src=\"lib/mustache.js\"></script>\n  <script type=\"text/javascript\" src=\"lib/lawnchair-0.6.1.js\"></script>\n  <script type=\"text/javascript\" src=\"lib/indexed-db.js\"></script>\n  <script type=\"text/javascript\" src=\"lib/chart.js\"></script>\n  <script type=\"text/javascript\" src=\"goodhabits.js\"></script>\n</head>\n\n<body>\n  <h1>\n    <span>Good Habits</span>\n  </h1>\n\n  <form id=\"newHabit\">\n    <input type=\"text\" placeholder=\"New habit\" />\n  </form>\n\n  <canvas id=\"habitGraph\" width=\"800\" height=\"250\"></canvas>\n\n  <div id=\"habits\"></div>\n  <div id=\"details\"></div>\n</body>\n\n<script id=\"habitsTmpl\" type=\"x-tmpl-mustache\">\n  <ul>\n    {{#habits}}\n      <li data-id={{id}}>\n        {{#recentDays}}\n          <input type=\"checkbox\" title=\"{{title}}\" data-date={{date}} {{checked}}>\n        {{/recentDays}}\n\n        <span>{{name}}</span>\n\n        {{#times}}\n          <small>{{times}} times</small>\n        {{/times}}\n\n        {{#notes}}\n          <small>{{notes}} notes</small>\n        {{/notes}}\n\n        {{#timeTxt}}\n          <small>{{timeTxt}}</small>\n        {{/timeTxt}}\n\n      </li>\n    {{/habits}}\n  </ul>\n</script>\nw\n\n<script id=\"habitDetailsTmpl\" type=\"x-tmpl-mustache\">\n  <div class=\"close\"><i class=\"fa fa-times-circle\"></i></div>\n\n  <h2>{{name}}</h2>\n\n  <div class=\"stats\">{{times}} times</div>\n\n  <form id=\"newNote\">\n    <input type=\"text\" placeholder=\"New Note\" />\n  </form>\n\n  <ul>\n    {{#notes}}\n      <li><div>{{text}}</div><span>{{date}}</span></li>\n    {{/notes}}\n  </ul>\n\n  <div class=\"trash\"><i class=\"fa fa-trash-o\"></i></div>\n</script>\n",
+			"file": "goodhabits.html",
+			"file_size": 1999,
+			"file_write_time": 130639974600000000,
+			"settings":
+			{
+				"buffer_size": 2000,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "css/style.css",
+			"settings":
+			{
+				"buffer_size": 1096,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 147.0,
+		"selected_items":
+		[
+			[
+				"add ",
+				"Project: Add Folder"
+			],
+			[
+				"sideba",
+				"View: Toggle Side Bar"
+			],
+			[
+				"sideb",
+				"View: Toggle Side Bar"
+			],
+			[
+				"isntall",
+				"Package Control: Install Package"
+			],
+			[
+				"package",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 449.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '7183a2d3e96f11eeadd761d777e62404' + 'e330c659d4bb41d3bdf022e94cab3cd0'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Users/riad/Projects/goodhabits.js",
+		"/Users/riad/Projects/goodhabits.js/css",
+		"/Users/riad/Projects/goodhabits.js/lib"
+	],
+	"file_history":
+	[
+		"/Users/riad/Projects/goodhabits.js/goodhabits.html",
+		"/Users/riad/Projects/goodhabits.js/goodhabits.css",
+		"/Users/riad/maschinenmensch/projects/curiousexpedition/dev/prototype-html/coffeescript/gfx.coffee",
+		"/Users/riad/maschinenmensch/projects/curiousexpedition/dev/prototype-html/coffeescript/diary.coffee",
+		"/Users/riad/maschinenmensch/projects/curiousexpedition/dev/prototype-html/create_dist.rb",
+		"/Users/riad/maschinenmensch/projects/curiousexpedition/dev/prototype-html/coffeescript/events.coffee",
+		"/Users/riad/maschinenmensch/projects/curiousexpedition/dev/prototype-html/conf/game.conf.js",
+		"/Users/riad/maschinenmensch/projects/curiousexpedition/dev/prototype-html/coffeescript/script.coffee",
+		"/Users/riad/maschinenmensch/projects/curiousexpedition/dev/prototype-html/public/index.html",
+		"/Users/riad/maschinenmensch/projects/curiousexpedition/dev/prototype-html/public/play.html",
+		"/Users/riad/maschinenmensch/projects/curiousexpedition/dev/prototype-html/public/play-dev.html",
+		"/Users/riad/maschinenmensch/projects/curiousexpedition/dev/prototype-html/coffeescript/infobox.coffee",
+		"/Users/riad/maschinenmensch/projects/curiousexpedition/dev/prototype-html/synch_diary.rb",
+		"/Users/riad/maschinenmensch/projects/curiousexpedition/dev/prototype-html/bin/demo-index.html",
+		"/Users/riad/maschinenmensch/projects/curiousexpedition/dev/prototype-html/conf/events.conf.js",
+		"/Users/riad/maschinenmensch/projects/curiousexpedition/dev/prototype-html/debug-events.html",
+		"/Users/riad/maschinenmensch/projects/curiousexpedition/dev/prototype-html/convert_sound.rb",
+		"/Users/riad/maschinenmensch/projects/curiousexpedition/dev/prototype-html/conf-help.html",
+		"/Users/riad/maschinenmensch/projects/curiousexpedition/dev/prototype-html/play-demo.html",
+		"/Users/riad/maschinenmensch/projects/curiousexpedition/dev/prototype-html/sfx-src/sfx_campOpen.wav",
+		"/Users/riad/maschinenmensch/projects/curiousexpedition/dev/prototype-html/compile.bat",
+		"/Users/riad/maschinenmensch/projects/curiousexpedition/dev/prototype-html/conf/villages.conf.js",
+		"/Users/riad/maschinenmensch/projects/curiousexpedition/dev/prototype-html/play-nw.html",
+		"/Users/riad/maschinenmensch/projects/curiousexpedition/dev/prototype-html/package.json",
+		"/Users/riad/maschinenmensch/projects/curiousexpedition/dev/prototype-html/coffeescript/debug.coffee",
+		"/Users/riad/maschinenmensch/projects/curiousexpedition/dev/prototype-html/coffeescript/interaction.coffee",
+		"/Users/riad/maschinenmensch/projects/curiousexpedition/dev/sublime/tce-game.sublime-project",
+		"/Users/riad/maschinenmensch/projects/curiousexpedition/dev/prototype-html/node_modules/coffee/node_modules/sinon/node_modules/formatio/node_modules/samsam/autolint.js",
+		"/Users/riad/maschinenmensch/projects/curiousexpedition/dev/prototype-html/sfx-src/sfx_rainstick_a.mp3",
+		"/Users/riad/maschinenmensch/projects/curiousexpedition/dev/prototype-html/node_modules/coffee/node_modules/sinon/node_modules/util/test/browser/inspect.js",
+		"/Users/riad/maschinenmensch/projects/curiousexpedition/dev/prototype-html/node_modules/body-parser/node_modules/iconv-lite/encodings/tables/gbk-added.json",
+		"/Users/riad/maschinenmensch/projects/curiousexpedition/dev/prototype-html/sfx-src/sfx_campClose.wav",
+		"/Users/riad/maschinenmensch/projects/curiousexpedition/dev/prototype-html/server.bat"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 93.0,
+		"where_history":
+		[
+			"/Users/riad/maschinenmensch/projects/curiousexpedition/dev/prototype-html/coffeescript",
+			"*.coffee;",
+			"*.coffee",
+			"*.cofee",
+			"*.js",
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"recentdays",
+			"980px",
+			"width",
+			"doEvent",
+			"parse",
+			"inline",
+			"report",
+			"mk",
+			"ismac",
+			")\n",
+			"mousescrolling = false",
+			"scrollHD",
+			"ontouchstart",
+			"touchstart",
+			"    \n",
+			"ctx",
+			"mousedown",
+			"onmousedownstart",
+			"onmousedownst",
+			"onmousedownstar",
+			"skip",
+			"credits",
+			"onmouseclick",
+			"true",
+			"draw(",
+			"showsettings",
+			"show"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 2,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "css/mobile-style.css",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 19,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								19,
+								19
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CSS/CSS.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "mobile.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2008,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								990,
+								990
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 312.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "goodhabits.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5909,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3357,
+								3357
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2291.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "goodhabits.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2000,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1138,
+								1138
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 327.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "css/style.css",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1096,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								295,
+								295
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CSS/CSS.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"project": "goodhabits.sublime-project",
+	"replace":
+	{
+		"height": 42.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"debu",
+				"conf/debug.conf.js"
+			],
+			[
+				"gamecon",
+				"conf/game.conf.js"
+			],
+			[
+				"play",
+				"public/play.html"
+			],
+			[
+				"index",
+				"public/index.html"
+			],
+			[
+				"diary",
+				"coffeescript/diary.coffee"
+			],
+			[
+				"evenst.cof",
+				"coffeescript/events.coffee"
+			],
+			[
+				"confevents",
+				"conf/events.conf.js"
+			],
+			[
+				"play-de",
+				"public/play-dev.html"
+			],
+			[
+				"create",
+				"create_dist.rb"
+			],
+			[
+				"convert",
+				"convert_sound.rb"
+			],
+			[
+				"pla",
+				"public/play-dev.html"
+			],
+			[
+				"g",
+				"coffeescript/gfx.coffee"
+			],
+			[
+				"debugconf",
+				"conf/debug.conf.js"
+			],
+			[
+				"script",
+				"coffeescript/script.coffee"
+			],
+			[
+				"gf",
+				"coffeescript/gfx.coffee"
+			],
+			[
+				"scr",
+				"coffeescript/script.coffee"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 392.0,
+		"selected_items":
+		[
+			[
+				"doeve",
+				"doEvent"
+			],
+			[
+				"doeven",
+				"doEvent"
+			],
+			[
+				"wheel",
+				"onMouseWheel"
+			],
+			[
+				"onmousewhe",
+				"onMouseWheel"
+			]
+		],
+		"width": 392.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 250.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
