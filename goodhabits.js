@@ -34,13 +34,13 @@ addHabitNote = function(id, note) {
 }
 
 trashHabit = function(id) {
-  habits.remove(function(h){return h.id == id});
+  var habit = getHabit(id);
+  habit.deleteRecord();
 
   if (showingHabitDetails == id)
     showingHabitDetails = null
 
   onHabitChanged()
-
 }
 
 hasHabitDate = function(id, date) {
@@ -197,12 +197,12 @@ renderHabitList = function() {
   $('#habits').html(out);
 
   $('input[type="checkbox"]').change(function (e) {
-    id = $(this).closest('li').data('id');
+    id = $(this).closest('tr').data('id');
     toggleHabitDate(id, Date.create(this.dataset.date));
   });
 
-  $('#habits span').click(function(e) {
-    id = $(this).closest('li').data('id');
+  $('#habits tr').click(function(e) {
+    id = $(this).closest('tr').data('id');
     showHabitDetails(id);
   });
 };
@@ -213,21 +213,27 @@ renderHabitDetails = function() {
     return;
   }
 
-  habit = getHabit(showingHabitDetails)
+  var habit = getHabit(showingHabitDetails);
+
+  if (!habit)
+    return;
+
+  var history = habit.get('history');
 
   outHabitDetails = {
-    id: habit.id,
-    name: habit.name,
-    times: habit.history.length,
-    notes: habit.notes.sortBy(function(n) {
-      return n.date;
+    id: habit.getId(),
+    name: habit.get('name'),
+    times: history.length(),
+    notes: []
+    // notes: habit.get(notes.sortBy(function(n) {
+    //   return n.date;
 
-    }, true).map(function(n) {
-      return {
-        text: n.text,
-        date: n.date.format('{dd}.{MM}.{yyyy}')
-      }
-    })
+    // }, true).map(function(n) {
+    //   return {
+    //     text: n.text,
+    //     date: n.date.format('{dd}.{MM}.{yyyy}')
+    //   }
+    // })
   }
 
   var tmpl = $('#habitDetailsTmpl').html()
