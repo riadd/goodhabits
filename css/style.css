@@ -42,7 +42,6 @@ h1 {
 
 #details {
   display: none;
-  width: 500px;
   border: 2px solid black;
   padding: 10px;
   position: fixed;

@@ -95,6 +95,12 @@ showHabitDetails = function(id) {
 };
 
 renderShortList = function() {
+  var graph = $('#habitGraph');
+  
+  if (graph.length <= 0) {
+    return;
+  }
+
   date = Date.create()
   counts = []
 
@@ -130,9 +136,9 @@ renderShortList = function() {
     skipLabels: 5
   };
 
-  ctx = $('#habitGraph').get(0).getContext('2d');
-  new Chart(ctx).Line(data, options);
-};
+  ctx = graph.get(0).getContext('2d');
+  new Chart(ctx).Line(data, options);  
+}
 
 renderHabitList = function() {
   relativeTime = function(habit) {
@@ -163,7 +169,7 @@ renderHabitList = function() {
     };
 
     date = Date.create();
-    for (var i=0; i<14; i++) {
+    for (var i=0; i<7; i++) {
       dateEntry = {
         id: h.id,
         checked: hasHabitDate(h.id, date) ? "checked" : "",
