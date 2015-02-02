@@ -7,6 +7,16 @@ h1 {
   font-size: 20px
 }
 
+/* interact */
+
+#connect {
+  margin: 30px;
+}
+
+#newHabit {
+  display: none;
+}
+
 /* habits */
 
 #habits {

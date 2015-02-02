@@ -3,36 +3,21 @@ var habits = [];
 // model code
 
 onHabitChanged = function() {
-  HabitDB.saveHabits();
   renderShortList();
   renderHabitList();
   renderHabitDetails();
 };
 
 getHabit = function(id) {
-  var habit = habits.find(function(h){return h.id == id;});
-  assert(habit);
-  return habit;
+  return habitTable.get(id);
 };
 
 addHabit = function(name) {
-  if (habits.length>0) {
-    maxId = habits.max(function(h){return h.id;}).id;
-    
-  } else {
-    // this will make the id's start with 1 which makes it easier to
-    // check for valid IDs if they can't be zero
-    maxId = 0;
-  }
-
-  newHabit = {
-    id: maxId+1,
+  var newHabit = habitTable.insert({
     name: name,
     history: [],
     notes: []
-  };
-
-  habits.push(newHabit)
+  });
   onHabitChanged()
 }
 
@@ -59,22 +44,34 @@ trashHabit = function(id) {
 }
 
 hasHabitDate = function(id, date) {
+  return habitDateIndex(id, date) > -1;
+}
+
+habitDateIndex = function(id, date) {
   var habit = getHabit(id)
   date = date.beginningOfDay()
 
-  return habit.history.any(function(d) {
-    return d.beginningOfDay().is(date)
-  })
+  var history = habit.get('history')
+
+  for (var i=0; i<history.length(); i++) {
+    var d = history.get(i);
+
+    if (d.beginningOfDay().is(date))
+      return i;
+  }
+
+  return -1;
 }
 
 toggleHabitDate = function(id, date) {
   var habit = getHabit(id)
+  var history = habit.get('history')
 
   if (hasHabitDate(id, date)) {
     date = date.beginningOfDay()
-    habit.history.remove(function(d) {return d.beginningOfDay().is(date)})
+    history.remove(habitDateIndex(id, date));
   } else {
-    habit.history.push(date);
+    history.push(date);
   }
 
   onHabitChanged();
@@ -116,15 +113,15 @@ renderShortList = function() {
   var data = {
     labels: counts.map(function(c) {return c.date.format('{yyyy}-{MM}-{dd}')}),
     datasets: [
-        {
-            fillColor: "rgba(220,220,220,0.2)",
-            strokeColor: "rgba(220,220,220,1)",
-            pointColor: "rgba(220,220,220,1)",
-            pointStrokeColor: "#fff",
-            pointHighlightFill: "#fff",
-            pointHighlightStroke: "rgba(220,220,220,1)",
-            data: counts.map(function(c) {return c.count;})
-        }
+      {
+        fillColor: "rgba(220,220,220,0.2)",
+        strokeColor: "rgba(220,220,220,1)",
+        pointColor: "rgba(220,220,220,1)",
+        pointStrokeColor: "#fff",
+        pointHighlightFill: "#fff",
+        pointHighlightStroke: "rgba(220,220,220,1)",
+        data: counts.map(function(c) {return c.count;})
+      }
     ]
   };
 
@@ -142,37 +139,44 @@ renderShortList = function() {
 
 renderHabitList = function() {
   relativeTime = function(habit) {
-    last = habit.history.last();
-    if (!last) return null;
+    var history = habit.get('history');
 
+    if (history.length() == 0)
+      return null;
+
+    var last = history.get(history.length()-1);
     return Date.create(last).daysAgo();
   };
+
+  var habits = habitTable.query();
 
   outHabits = habits.map(function(h){
     daysAgo = relativeTime(h);
 
+    var history = h.get('history')
+
     if (daysAgo === null)
-      timeTxt = "";
+      var timeTxt = "";
     else if (daysAgo > 0)
-      timeTxt = daysAgo + " days ago";
+      var timeTxt = daysAgo + " days ago";
     else
-      timeTxt = "today";
+      var timeTxt = "today";
 
     habit = {
-      id: h.id,
-      name: h.name,
+      id: h.getId(),
+      name: h.get('name'),
       recentDays: [],
-      times: h.history.length,
-      notes: h.notes.length,
+      times: history.length(),
+      notes: 0, //h.notes.length,
       timeTxt: timeTxt,
-      daysAgo: daysAgo === null ? 1000 : daysAgo
+      daysAgo: 0 //daysAgo === null ? 1000 : daysAgo
     };
 
     date = Date.create();
     for (var i=0; i<7; i++) {
       dateEntry = {
-        id: h.id,
-        checked: hasHabitDate(h.id, date) ? "checked" : "",
+        id: h.getId(),
+        checked: hasHabitDate(h.getId(), date) ? "checked" : "",
         date: date.format('{yyyy}-{MM}-{dd}'),
         title: date.format('{Weekday} {dd}.{MM}.{yyyy}')
       };
@@ -251,43 +255,51 @@ renderHabitDetails = function() {
 
 var HabitDB = {
   loadHabits: function() {
-    if (Lawnchair) {
-      db = Lawnchair({name:'gh-db', adapter:'indexed-db'}, function(db) {
-        db.get('habits', function(rec) {
-          if (rec) {
-            habits = rec.values
-          }
+    client = new Dropbox.Client({key: '1atsdxrgq619bwn'});
 
-          // update old habits
-          habits = habits.map(function(h) {
-            if (!h.notes) {
-              h.notes = [];
-            }
+    // Try to finish OAuth authorization.
+    client.authenticate({interactive: false}, function (error) {
+      if (error) {
+        alert('Authentication error: ' + error);
+      }
 
-            return h;
-          })
+      if (!client.isAuthenticated())
+        return;
 
-          renderShortList()
-          renderHabitList()
+      manager = client.getDatastoreManager();
+      manager.openDefaultDatastore(function (error, datastore) {
+        if (error) {
+          alert('Error opening default datastore: ' + error);
+        }
+
+        $('#newHabit').show();
+        $('#connect').hide();
+
+        datastore.recordsChanged.addListener(function (event) {
+          console.log('records changed:', event.affectedRecordsForTable('habits'));
+          onHabitChanged();
         });
-      });
-    }
-  },
 
-  saveHabits: function() {
-    db.save({key: 'habits', values: habits})
+        habitTable = datastore.getTable('habits');
+        onHabitChanged();
+      });
+    });
   },
 }
 
 $(function() {
   HabitDB.loadHabits();
 
-  $('#newHabit').submit(function(event) {
+  $('#newHabit').submit(function(e) {
     name = $('input').val()
     $('input')[0].value = ""
-    event.preventDefault()
+    e.preventDefault()
 
     addHabit(name)
+  });
+
+  $('#connect').click(function(e) {
+    client.authenticate();
   });
 });
 
