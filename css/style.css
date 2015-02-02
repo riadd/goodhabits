@@ -1,0 +1,121 @@
+body {
+  font-family: helvetica;
+  margin: 0px;
+}
+
+h1 {
+  font-size: 36px;
+  font-weight: normal;
+  padding: 10px;
+  margin: 0;
+  background-color: #ccc;
+  color: #555;
+  font-family: 'Yanone Kaffeesatz', sans-serif;
+}
+
+/* interact */
+
+#connect {
+  margin: 30px auto;
+  padding: 30px;
+  width: 200px;
+  display: block;
+}
+
+#newHabit {
+  display: none;
+  margin: 20px 40px 10px;
+  font-size: 1.5em;
+}
+
+#newHabit input {
+  width: 500px;
+}
+
+/* habits */
+
+#habits {
+  font-size: 1.2em;
+  margin: 40px;
+}
+
+#habits tr {
+  padding: 5px;
+  margin: 5px;
+  border-bottom: 1px solid #dfdfdf;
+}
+
+#habits th {
+  padding: 20px;
+}
+
+#habits .name {
+  width: 500px;
+  font-size: 1.4em;
+  padding: 5px 20px;
+}
+
+#habits .name:hover {
+  background: #dfdfdf;
+}
+
+#habits .times, #habits .notes, #habits .date{
+  font-size: 1.6em;
+  color: #888;
+  font-weight: 500;
+  text-align: center;
+  padding: 0px 40px;
+}
+
+/* details */
+
+#details {
+  display: none;
+  border: 2px solid black;
+  padding: 10px;
+  position: fixed;
+  right: 10px;
+  top: 10px;
+  background-color: white;
+}
+
+#details h2 {
+  font-size: 1.2em;
+  margin: 5px 0 25px;
+}
+
+#details .close {
+  float: right;
+  text-align: right;
+  color: gray;
+}
+
+#details .trash {
+  text-align: right;
+  color: gray;
+}
+
+#details ul {
+  padding: 0;
+}
+
+#details li {
+  padding: 3px;
+  margin: 5px;
+  list-style: none;
+  background: #eee;
+}
+
+#details span {
+ font-size:0.6em;
+ padding: 3px 0;
+}
+
+#details .stats {
+  padding: 5px;
+  margin: 15px 0;
+  background: #CAFBFF;
+  font-weight: bold;
+  font-size: 0.7em
+}
+
