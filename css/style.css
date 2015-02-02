@@ -24,8 +24,12 @@ h1 {
 
 #newHabit {
   display: none;
-  margin: 20px;
-  font-size: 1.4em;
+  margin: 20px 40px 10px;
+  font-size: 1.5em;
+}
+
+#newHabit input {
+  width: 500px;
 }
 
 /* habits */
@@ -38,7 +42,7 @@ h1 {
 #habits tr {
   padding: 5px;
   margin: 5px;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid #dfdfdf;
 }
 
 #habits th {
@@ -48,14 +52,19 @@ h1 {
 #habits .name {
   width: 500px;
   font-size: 1.4em;
-  padding: 20px;
+  padding: 5px 20px;
+}
+
+#habits .name:hover {
+  background: #dfdfdf;
 }
 
 #habits .times, #habits .notes, #habits .date{
-  padding: 20px 50px;
   font-size: 1.6em;
   color: #888;
-  font-weight: 600;
+  font-weight: 500;
+  text-align: center;
+  padding: 0px 40px;
 }
 
 /* details */
