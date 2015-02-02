@@ -42,12 +42,11 @@
 
     {{#habits}}
       <tr data-id={{id}}>
-        <td>
+        <td class="checkboxes">
         {{#recentDays}}
-            <input type="checkbox" title="{{title}}" data-date={{date}} {{checked}}>
+          <input type="checkbox" title="{{title}}" data-date={{date}} {{checked}}>
         {{/recentDays}}
         </td>
-
         <td class="name">{{name}}</td>
         <td class="times">{{times}}</td>
         <td class="notes">{{notes}}</td>
