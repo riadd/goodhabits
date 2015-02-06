@@ -6,11 +6,35 @@ body {
 h1 {
   font-size: 36px;
   font-weight: normal;
+  font-family: 'Yanone Kaffeesatz', sans-serif;
+  color: #555;
+  margin: 0;
+}
+
+#mainBar {
   padding: 10px;
   margin: 0;
-  background-color: #ccc;
-  color: #555;
-  font-family: 'Yanone Kaffeesatz', sans-serif;
+  background-color: #aaa;
+}
+
+#dayBar {
+ background-color: #ddd; 
+ margin: 0;
+ padding: 10px;
+ height: 20px;
+}
+
+#dayBar li {
+  float: left;
+  margin: 2px;
+  /*padding: 2px 5px;*/
+  width: 20px;
+  background: #bbb;
+  text-align: center;
+}
+
+#graph {
+  width: 100%;
 }
 
 /* interact */
@@ -29,7 +53,13 @@ h1 {
 }
 
 #newHabit input {
-  width: 500px;
+  display: block;
+}
+
+/* newNote */
+
+#newNote textarea {
+  width: 100%;
 }
 
 /* habits */

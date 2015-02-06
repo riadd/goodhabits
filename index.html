@@ -15,15 +15,14 @@
 </head>
 
 <body>
-  <h1>GoodHabits.js</h1>
+  <h1 id="mainBar">GoodHabits.js</h1>
+  <ul id="dayBar"></ul>
 
   <div id="connect" class="pure-button pure-button-primary">Connect to Dropbox</div>
 
   <form id="newHabit">
     <input type="text" placeholder="New habit" />
   </form>
-
-  <!-- <canvas id="habitGraph" width="800" height="250"></canvas> -->
 
   <div id="habits"></div>
   <div id="details"></div>
@@ -65,7 +64,7 @@
   <div class="stats">{{times}} times</div>
 
   <form id="newNote">
-    <input type="text" placeholder="New Note" />
+    <textarea type="text" placeholder="New Note" />
   </form>
 
   <ul>

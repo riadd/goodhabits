@@ -3,7 +3,8 @@ var habits = [];
 // model code
 
 onHabitChanged = function() {
-  renderShortList();
+  // renderGraph();
+  renderDayBar();
   renderHabitList();
   renderHabitDetails();
 };
@@ -91,50 +92,32 @@ showHabitDetails = function(id) {
   renderHabitDetails();
 };
 
-renderShortList = function() {
-  var graph = $('#habitGraph');
-  
-  if (graph.length <= 0) {
-    return;
-  }
+renderDayBar = function() {
+  var habits = habitTable.query(),
+    date = Date.create(),
+    txt = "",
+    added = false;
 
-  date = Date.create()
-  counts = []
+  date.rewind({day:14});
 
   for (var i=0; i<14; i++) {
-    counts.unshift({
-      count: habits.count(function(h) {return hasHabitDate(h.id, date)}),
-      date: date.clone()
-    })
+    count = habits.count(function(h) {
+      return hasHabitDate(h.getId(), date)
+    });
 
-    date.rewind({day:1})
+    if (count > 0) {
+      added = true;
+    }
+
+    if (added) {
+      tmpl = "<li style='height:{{height}}px;margin-top:{{margin}}' title='{{count}} habits'></li>";
+      txt += Mustache.render(tmpl, {height:2*count, margin:30-2*count, count:count});
+    }
+    
+    date.advance({day:1});
   }
 
-  var data = {
-    labels: counts.map(function(c) {return c.date.format('{yyyy}-{MM}-{dd}')}),
-    datasets: [
-      {
-        fillColor: "rgba(220,220,220,0.2)",
-        strokeColor: "rgba(220,220,220,1)",
-        pointColor: "rgba(220,220,220,1)",
-        pointStrokeColor: "#fff",
-        pointHighlightFill: "#fff",
-        pointHighlightStroke: "rgba(220,220,220,1)",
-        data: counts.map(function(c) {return c.count;})
-      }
-    ]
-  };
-
-  var options = {
-    legendTemplate: '',
-    scaleShowLabels: false,
-    scaleLabel: "<%=value%>AAA",
-    bezierCurve: true,
-    skipLabels: 5
-  };
-
-  ctx = graph.get(0).getContext('2d');
-  new Chart(ctx).Line(data, options);  
+  $('#dayBar').html(txt);
 }
 
 renderHabitList = function() {
@@ -257,6 +240,58 @@ renderHabitDetails = function() {
   })
 }
 
+renderGraph = function() {
+  var graph = $('#graph');
+  
+  if (graph.length <= 0) {
+    return;
+  }
+
+  var habits = habitTable.query();
+  var date = Date.create();
+  var counts = [];
+
+  for (var i=0; i<14; i++) {
+    counts.unshift({
+      count: habits.count(function(h) {
+        return hasHabitDate(h.getId(), date)
+      }),
+      date: date.clone()
+    })
+
+    date.rewind({day:1})
+  }
+
+  var data = {
+    labels: counts.map(function(c) {
+      // return c.date.format('{yyyy}-{MM}-{dd}')
+      return '';
+    }),
+    datasets: [
+      {
+        fillColor: "rgba(220,220,220,0.2)",
+        strokeColor: "rgba(220,220,220,1)",
+        pointColor: "rgba(220,220,220,1)",
+        pointStrokeColor: "#fff",
+        pointHighlightFill: "#fff",
+        pointHighlightStroke: "rgba(220,220,220,1)",
+        data: counts.map(function(c) {return c.count;})
+      }
+    ]
+  };
+
+  var options = {
+    legendTemplate: '',
+    scaleShowLabels: false,
+    scaleLabel: "<%=value%>AAA",
+    bezierCurve: true,
+    skipLabels: 5
+  };
+
+  ctx = graph.get(0).getContext('2d');
+  new Chart(ctx).Bar(data, options);  
+}
+
 // controller
 
 var HabitDB = {
@@ -307,6 +342,11 @@ $(function() {
   $('#connect').click(function(e) {
     client.authenticate();
   });
+
+  $(window).resize(function(e) {
+    // $('#graph')[0].width = $(window).width();
+  });
+
 });
 
 
