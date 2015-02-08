@@ -7,6 +7,7 @@ onHabitChanged = function() {
   renderDayBar();
   renderHabitList();
   renderHabitDetails();
+  renderFooter();
 };
 
 getHabit = function(id) {
@@ -111,7 +112,7 @@ renderDayBar = function() {
     }
 
     if (added) {
-      tmpl = "<li style='height:{{height}}px;margin-top:{{margin}}' title='{{count}} habits'></li>";
+      tmpl = "<li style='height:{{height}}px;margin-top:{{margin}}' title='{{count}} habits'><span>{{count}}</span></li>";
       txt += Mustache.render(tmpl, {height:2*count, margin:30-2*count, count:count});
     }
     
@@ -119,6 +120,11 @@ renderDayBar = function() {
   }
 
   $('#dayBar').html(txt);
+}
+
+renderFooter = function() {
+  var habits = habitTable.query();
+  $('#footer').html(habits.length+" Total Habits");
 }
 
 renderHabitList = function() {
