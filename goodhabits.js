@@ -96,11 +96,12 @@ renderDayBar = function() {
   var habits = habitTable.query(),
     date = Date.create(),
     txt = "",
-    added = false;
+    added = false,
+    rewindDays = 14;
 
-  date.rewind({day:14});
+  date.rewind({day:rewindDays-1});
 
-  for (var i=0; i<14; i++) {
+  for (var i=0; i<rewindDays; i++) {
     count = habits.count(function(h) {
       return hasHabitDate(h.getId(), date)
     });
