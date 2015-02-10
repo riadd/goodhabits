@@ -159,7 +159,7 @@ renderHabitList = function() {
       times: history.length(),
       notes: 0, //h.notes.length,
       timeTxt: timeTxt,
-      daysAgo: 0 //daysAgo === null ? 1000 : daysAgo
+      daysAgo: daysAgo === null ? 1000 : daysAgo
     };
 
     date = Date.create();
