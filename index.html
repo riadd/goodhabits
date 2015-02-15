@@ -34,7 +34,6 @@
 
       <th>Name</th>
       <th>Times</th>
-      <th>Notes</th>
       <th>Last Time</th>
     </tr>
 
@@ -45,11 +44,20 @@
           <input type="checkbox" title="{{title}}" data-date={{date}} {{checked}}>
         {{/recentDays}}
         </td>
-        <td class="name {{#selected}}selected{{/selected}}">{{name}}</td>
+        <td class="name">{{name}}</td>
         <td class="times">{{times}}</td>
-        <td class="notes">{{notes}}</td>
         <td class="date">{{timeTxt}}</td>
       </tr>
+      {{#selected}}
+        <tr class="details">
+          <td colspan="4">
+            <form id="notes">
+              <textarea type="text" placeholder="notes...">{{notes}}</textarea>
+            </form>
+          </td>
+        </tr>
+      {{/selected}}
+
     {{/habits}}
   </table>
 </script>

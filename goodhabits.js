@@ -146,7 +146,7 @@ renderHabitList = function() {
       name: h.get('name'),
       recentDays: [],
       times: history.length(),
-      notes: 0, //h.notes.length,
+      notes: h.get('notes'),
       timeTxt: timeTxt,
       daysAgo: daysAgo === null ? 1000 : daysAgo,
       selected: h.getId() == showingHabitDetails
@@ -181,13 +181,25 @@ renderHabitList = function() {
     toggleHabitDate(id, Date.create(this.dataset.date));
   });
 
-  $('#habits tr').click(function(e) {
+  $('#habits tr .name').click(function(e) {
+    e.preventDefault();
+
     id = $(this).closest('tr').data('id');
-    showHabitDetails(id);
+    
+    if (id && id == showingHabitDetails)  {
+      showingHabitDetails = null
+    } else {
+      showHabitDetails(id);
+    }
+    
+    renderHabitDetails();
+    renderHabitList();
   });
 };
 
 renderHabitDetails = function() {
+  return; // HACK
+
   if (!showingHabitDetails) {
     $('#details').hide()  
     return;
@@ -325,7 +337,7 @@ $(function() {
   $('#newHabit').submit(function(e) {
     name = $('input').val()
     $('input')[0].value = ""
-    e.preventDefault()
+    e.preventDefault();
 
     addHabit(name)
   });
