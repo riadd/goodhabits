@@ -6,11 +6,47 @@ body {
 h1 {
   font-size: 36px;
   font-weight: normal;
-  padding: 10px;
-  margin: 0;
-  background-color: #ccc;
-  color: #555;
   font-family: 'Yanone Kaffeesatz', sans-serif;
+  color: #555;
+  margin: 0;
+}
+
+#mainBar {
+  padding: 8px;
+  margin: 0;
+  background-color: #aaa;
+}
+
+#dayBar {
+ background-color: #ddd; 
+ margin: 0;
+ padding: 10px;
+ height: 20px;
+}
+
+#dayBar li {
+  float: left;
+  margin: 2px;
+  /*padding: 2px 5px;*/
+  width: 20px;
+  background: #bbb;
+  text-align: center;
+}
+
+#dayBar li span {
+  display: none;
+  position: relative;
+  top: -10px;
+}
+
+#dayBar li:hover span {
+  display: block;
+  color: #444;
+  font-weight: bold;
+}
+
+#graph {
+  width: 100%;
 }
 
 /* interact */
@@ -29,7 +65,20 @@ h1 {
 }
 
 #newHabit input {
-  width: 500px;
+  display: block;
+}
+
+/* newNote */
+
+#notes textarea {
+  width: 100%;
+  height: 80%;
+  font-family: 'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;
+  font-size: 12px;
+  border: 1px solid #222;
+  background: #444;
+  color: white;
+  padding: 6px; 
 }
 
 /* habits */
@@ -51,7 +100,7 @@ h1 {
 
 #habits .name {
   width: 500px;
-  font-size: 1.4em;
+  font-size: 1.0em;
   padding: 5px 20px;
 }
 
@@ -59,8 +108,12 @@ h1 {
   background: #dfdfdf;
 }
 
+#habits .checkboxes {
+  width: 120px;
+}
+
 #habits .times, #habits .notes, #habits .date{
-  font-size: 1.6em;
+  font-size: 1.0em;
   color: #888;
   font-weight: 500;
   text-align: center;
@@ -70,16 +123,21 @@ h1 {
 /* details */
 
 #details {
+  font-size: 1.2em;
   display: none;
-  border: 2px solid black;
+  background-color: #333;
+  color: #777;
+  border-left: 4px solid black;
   padding: 10px;
   position: fixed;
-  right: 10px;
-  top: 10px;
-  background-color: white;
+  right: 0;
+  top: 0;
+  width: 500px;
+  height: 100%;
 }
 
 #details h2 {
+  color: white;
   font-size: 1.2em;
   margin: 5px 0 25px;
 }
@@ -103,7 +161,6 @@ h1 {
   padding: 3px;
   margin: 5px;
   list-style: none;
-  background: #eee;
 }
 
 #details span {
@@ -114,8 +171,19 @@ h1 {
 #details .stats {
   padding: 5px;
   margin: 15px 0;
-  background: #CAFBFF;
-  font-weight: bold;
-  font-size: 0.7em
+  background: #444;
+  border: 1px solid #222;
+  border-radius: 4px;
+  color: white;
+  font-size: 12px;
+}
+
+/* footer */
+
+#footer {
+  text-align: center;
+  font-size: 0.8em;
+  color: #aaa;
+  padding: 10px;
 }
 

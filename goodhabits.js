@@ -3,9 +3,10 @@ var habits = [];
 // model code
 
 onHabitChanged = function() {
-  renderShortList();
+  renderDayBar();
   renderHabitList();
   renderHabitDetails();
+  renderFooter();
 };
 
 getHabit = function(id) {
@@ -16,20 +17,9 @@ addHabit = function(name) {
   var newHabit = habitTable.insert({
     name: name,
     history: [],
-    notes: []
+    notes: ''
   });
-  onHabitChanged()
-}
 
-addHabitNote = function(id, note) {
-  var habit = getHabit(id);
-
-  newNote = {
-    text: note,
-    date: Date.create()
-  }
-
-  habit.notes.push(newNote)
   onHabitChanged()
 }
 
@@ -91,50 +81,38 @@ showHabitDetails = function(id) {
   renderHabitDetails();
 };
 
-renderShortList = function() {
-  var graph = $('#habitGraph');
-  
-  if (graph.length <= 0) {
-    return;
+renderDayBar = function() {
+  var habits = habitTable.query(),
+    date = Date.create(),
+    txt = "",
+    added = false,
+    rewindDays = 14;
+
+  date.rewind({day:rewindDays-1});
+
+  for (var i=0; i<rewindDays; i++) {
+    count = habits.count(function(h) {
+      return hasHabitDate(h.getId(), date)
+    });
+
+    if (count > 0) {
+      added = true;
+    }
+
+    if (added) {
+      tmpl = "<li style='height:{{height}}px;margin-top:{{margin}}' title='{{count}} habits'><span>{{count}}</span></li>";
+      txt += Mustache.render(tmpl, {height:2*count, margin:30-2*count, count:count});
+    }
+    
+    date.advance({day:1});
   }
 
-  date = Date.create()
-  counts = []
+  $('#dayBar').html(txt);
+}
 
-  for (var i=0; i<14; i++) {
-    counts.unshift({
-      count: habits.count(function(h) {return hasHabitDate(h.id, date)}),
-      date: date.clone()
-    })
-
-    date.rewind({day:1})
-  }
-
-  var data = {
-    labels: counts.map(function(c) {return c.date.format('{yyyy}-{MM}-{dd}')}),
-    datasets: [
-      {
-        fillColor: "rgba(220,220,220,0.2)",
-        strokeColor: "rgba(220,220,220,1)",
-        pointColor: "rgba(220,220,220,1)",
-        pointStrokeColor: "#fff",
-        pointHighlightFill: "#fff",
-        pointHighlightStroke: "rgba(220,220,220,1)",
-        data: counts.map(function(c) {return c.count;})
-      }
-    ]
-  };
-
-  var options = {
-    legendTemplate: '',
-    scaleShowLabels: false,
-    scaleLabel: "<%=value%>AAA",
-    bezierCurve: true,
-    skipLabels: 5
-  };
-
-  ctx = graph.get(0).getContext('2d');
-  new Chart(ctx).Line(data, options);  
+renderFooter = function() {
+  var habits = habitTable.query();
+  $('#footer').html(habits.length+" Total Habits");
 }
 
 renderHabitList = function() {
@@ -169,7 +147,7 @@ renderHabitList = function() {
       times: history.length(),
       notes: 0, //h.notes.length,
       timeTxt: timeTxt,
-      daysAgo: 0 //daysAgo === null ? 1000 : daysAgo
+      daysAgo: daysAgo === null ? 1000 : daysAgo
     };
 
     date = Date.create();
@@ -224,29 +202,23 @@ renderHabitDetails = function() {
     id: habit.getId(),
     name: habit.get('name'),
     times: history.length(),
-    notes: []
-    // notes: habit.get(notes.sortBy(function(n) {
-    //   return n.date;
+    notes: habit.get('notes')
+  }
 
-    // }, true).map(function(n) {
-    //   return {
-    //     text: n.text,
-    //     date: n.date.format('{dd}.{MM}.{yyyy}')
-    //   }
-    // })
+  if ($('#notes textarea').is(':focus')) {
+    return;
   }
 
   var tmpl = $('#habitDetailsTmpl').html()
   var out = Mustache.render(tmpl, outHabitDetails);
   $('#details').html(out).show();
 
-  $('#newNote').submit(function(event) {
-    txt = $('#details input').val()
-    $('#details input')[0].value = ""
-    event.preventDefault()
+  $('#notes textarea').val(habit.get('notes'));
 
-    addHabitNote(showingHabitDetails, txt)
-  });
+  $("#notes textarea").bind('input propertychange', (function(e) {
+    var habit = getHabit(showingHabitDetails);
+    habit.set('notes', $(this).val())
+  }).debounce(500));
 
   $('#details .close').click(function(e) {
     showHabitDetails()
@@ -255,6 +227,58 @@ renderHabitDetails = function() {
   $('#details .trash').click(function(e) {
     trashHabit(showingHabitDetails)
   })
+}
+
+renderGraph = function() {
+  var graph = $('#graph');
+  
+  if (graph.length <= 0) {
+    return;
+  }
+
+  var habits = habitTable.query();
+  var date = Date.create();
+  var counts = [];
+
+  for (var i=0; i<14; i++) {
+    counts.unshift({
+      count: habits.count(function(h) {
+        return hasHabitDate(h.getId(), date)
+      }),
+      date: date.clone()
+    })
+
+    date.rewind({day:1})
+  }
+
+  var data = {
+    labels: counts.map(function(c) {
+      // return c.date.format('{yyyy}-{MM}-{dd}')
+      return '';
+    }),
+    datasets: [
+      {
+        fillColor: "rgba(220,220,220,0.2)",
+        strokeColor: "rgba(220,220,220,1)",
+        pointColor: "rgba(220,220,220,1)",
+        pointStrokeColor: "#fff",
+        pointHighlightFill: "#fff",
+        pointHighlightStroke: "rgba(220,220,220,1)",
+        data: counts.map(function(c) {return c.count;})
+      }
+    ]
+  };
+
+  var options = {
+    legendTemplate: '',
+    scaleShowLabels: false,
+    scaleLabel: "<%=value%>AAA",
+    bezierCurve: true,
+    skipLabels: 5
+  };
+
+  ctx = graph.get(0).getContext('2d');
+  new Chart(ctx).Bar(data, options);  
 }
 
 // controller
@@ -307,6 +331,11 @@ $(function() {
   $('#connect').click(function(e) {
     client.authenticate();
   });
+
+  $(window).resize(function(e) {
+    // $('#graph')[0].width = $(window).width();
+  });
+
 });
 
 
