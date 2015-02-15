@@ -79,6 +79,7 @@ var showingHabitDetails;
 showHabitDetails = function(id) {
   showingHabitDetails = id;
   renderHabitDetails();
+  renderHabitList();
 };
 
 renderDayBar = function() {
@@ -147,7 +148,8 @@ renderHabitList = function() {
       times: history.length(),
       notes: 0, //h.notes.length,
       timeTxt: timeTxt,
-      daysAgo: daysAgo === null ? 1000 : daysAgo
+      daysAgo: daysAgo === null ? 1000 : daysAgo,
+      selected: h.getId() == showingHabitDetails
     };
 
     date = Date.create();
@@ -156,7 +158,7 @@ renderHabitList = function() {
         id: h.getId(),
         checked: hasHabitDate(h.getId(), date) ? "checked" : "",
         date: date.format('{yyyy}-{MM}-{dd}'),
-        title: date.format('{Weekday} {dd}.{MM}.{yyyy}')
+        title: date.format('{Weekday} {dd}.{MM}.{yyyy}'),
       };
 
       habit.recentDays.unshift(dateEntry);
