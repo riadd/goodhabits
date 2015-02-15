@@ -3,7 +3,6 @@ var habits = [];
 // model code
 
 onHabitChanged = function() {
-  // renderGraph();
   renderDayBar();
   renderHabitList();
   renderHabitDetails();
@@ -18,20 +17,9 @@ addHabit = function(name) {
   var newHabit = habitTable.insert({
     name: name,
     history: [],
-    notes: []
+    notes: ''
   });
-  onHabitChanged()
-}
 
-addHabitNote = function(id, note) {
-  var habit = getHabit(id);
-
-  newNote = {
-    text: note,
-    date: Date.create()
-  }
-
-  habit.notes.push(newNote)
   onHabitChanged()
 }
 
@@ -214,29 +202,23 @@ renderHabitDetails = function() {
     id: habit.getId(),
     name: habit.get('name'),
     times: history.length(),
-    notes: []
-    // notes: habit.get(notes.sortBy(function(n) {
-    //   return n.date;
+    notes: habit.get('notes')
+  }
 
-    // }, true).map(function(n) {
-    //   return {
-    //     text: n.text,
-    //     date: n.date.format('{dd}.{MM}.{yyyy}')
-    //   }
-    // })
+  if ($('#notes textarea').is(':focus')) {
+    return;
   }
 
   var tmpl = $('#habitDetailsTmpl').html()
   var out = Mustache.render(tmpl, outHabitDetails);
   $('#details').html(out).show();
 
-  $('#newNote').submit(function(event) {
-    txt = $('#details input').val()
-    $('#details input')[0].value = ""
-    event.preventDefault()
+  $('#notes textarea').val(habit.get('notes'));
 
-    addHabitNote(showingHabitDetails, txt)
-  });
+  $("#notes textarea").bind('input propertychange', (function(e) {
+    var habit = getHabit(showingHabitDetails);
+    habit.set('notes', $(this).val())
+  }).debounce(500));
 
   $('#details .close').click(function(e) {
     showHabitDetails()
