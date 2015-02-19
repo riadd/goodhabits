@@ -75,12 +75,23 @@ assert = function(expr) {
 // view code
 
 var showingHabitDetails;
+var cursorPosStart, cursorPosEnd;
+var notificationTimeout;
 
 showHabitDetails = function(id) {
   showingHabitDetails = id;
   renderHabitDetails();
   renderHabitList();
 };
+
+showNotification = function(text) {
+  $('#notification').text(text).addClass('show');
+  clearTimeout(notificationTimeout);
+
+  notificationTimeout = setTimeout(function() {
+    $('#notification').removeClass('show');
+  }, 2000);
+}
 
 renderDayBar = function() {
   var habits = habitTable.query(),
@@ -174,12 +185,29 @@ renderHabitList = function() {
 
   var tmpl = $('#habitsTmpl').html();
   var out = Mustache.render(tmpl, {habits: outHabits});
+
   $('#habits').html(out);
 
   $('input[type="checkbox"]').change(function (e) {
     id = $(this).closest('tr').data('id');
     toggleHabitDate(id, Date.create(this.dataset.date));
   });
+
+  if (showingHabitDetails) {
+    $(".notes textarea")[0].selectionStart = cursorPosStart;
+    $(".notes textarea")[0].selectionEnd = cursorPosEnd;
+    $(".notes textarea")[0].focus();
+
+    $(".notes textarea").bind('input propertychange', (function(e) {
+      var habit = getHabit(showingHabitDetails);
+
+      cursorPosStart = $(this).prop("selectionStart");
+      cursorPosEnd = $(this).prop("selectionEnd");
+
+      habit.set('notes', $(this).val());
+      showNotification("Saved note");
+    }).debounce(500));  
+  }
 
   $('#habits tr .name').click(function(e) {
     e.preventDefault();
@@ -191,56 +219,54 @@ renderHabitList = function() {
     } else {
       showHabitDetails(id);
     }
-    
+
     renderHabitDetails();
     renderHabitList();
   });
 };
 
 renderHabitDetails = function() {
-  return; // HACK
+  // if (!showingHabitDetails) {
+  //   $('#details').hide()  
+  //   return;
+  // }
 
-  if (!showingHabitDetails) {
-    $('#details').hide()  
-    return;
-  }
+  // var habit = getHabit(showingHabitDetails);
 
-  var habit = getHabit(showingHabitDetails);
+  // if (!habit)
+  //   return;
 
-  if (!habit)
-    return;
+  // var history = habit.get('history');
 
-  var history = habit.get('history');
+  // outHabitDetails = {
+  //   id: habit.getId(),
+  //   name: habit.get('name'),
+  //   times: history.length(),
+  //   notes: habit.get('notes')
+  // }
 
-  outHabitDetails = {
-    id: habit.getId(),
-    name: habit.get('name'),
-    times: history.length(),
-    notes: habit.get('notes')
-  }
+  // if ($('#notes textarea').is(':focus')) {
+  //   return;
+  // }
 
-  if ($('#notes textarea').is(':focus')) {
-    return;
-  }
+  // var tmpl = $('#habitDetailsTmpl').html()
+  // var out = Mustache.render(tmpl, outHabitDetails);
+  // $('#details').html(out).show();
 
-  var tmpl = $('#habitDetailsTmpl').html()
-  var out = Mustache.render(tmpl, outHabitDetails);
-  $('#details').html(out).show();
+  // $('#notes textarea').val(habit.get('notes'));
 
-  $('#notes textarea').val(habit.get('notes'));
+  // $("#notes textarea").bind('input propertychange', (function(e) {
+  //   var habit = getHabit(showingHabitDetails);
+  //   habit.set('notes', $(this).val())
+  // }).debounce(500));
 
-  $("#notes textarea").bind('input propertychange', (function(e) {
-    var habit = getHabit(showingHabitDetails);
-    habit.set('notes', $(this).val())
-  }).debounce(500));
+  // $('#details .close').click(function(e) {
+  //   showHabitDetails()
+  // })
 
-  $('#details .close').click(function(e) {
-    showHabitDetails()
-  })
-
-  $('#details .trash').click(function(e) {
-    trashHabit(showingHabitDetails)
-  })
+  // $('#details .trash').click(function(e) {
+  //   trashHabit(showingHabitDetails)
+  // })
 }
 
 renderGraph = function() {

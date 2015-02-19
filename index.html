@@ -13,6 +13,7 @@
 </head>
 
 <body>
+  <div id="notification">Note</div>
   <h1 id="mainBar">GoodHabits.js</h1>
   <ul id="dayBar"></ul>
 
@@ -51,7 +52,7 @@
       {{#selected}}
         <tr class="details">
           <td colspan="4">
-            <form id="notes">
+            <form class="notes">
               <textarea type="text" placeholder="notes...">{{notes}}</textarea>
             </form>
           </td>

@@ -11,6 +11,20 @@ h1 {
   margin: 0;
 }
 
+#notification {
+  position: absolute;
+  top: -60px;
+  right: 50px;
+  background: #555;
+  color: white;
+  padding: 20px;
+  transition:top 1s;
+}
+
+#notification.show {
+  top: 0;
+}
+
 #mainBar {
   padding: 8px;
   margin: 0;
@@ -70,7 +84,7 @@ h1 {
 
 /* newNote */
 
-#notes textarea {
+.notes textarea {
   width: 100%;
   height: 80%;
   font-family: 'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;
@@ -102,6 +116,10 @@ h1 {
   background: #eee;
 }
 
+#habits tr td.name:hover {
+  cursor: pointer;
+}
+
 #habits th {
   padding: 20px;
 }
@@ -123,7 +141,7 @@ h1 {
   vertical-align: top;
 }
 
-#habits .times, #habits .notes, #habits .date {
+#habits .times, #habits .date {
   font-size: 1.0em;
   color: #888;
   font-weight: 500;
