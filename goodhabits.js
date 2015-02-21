@@ -140,17 +140,42 @@ renderHabitList = function() {
 
   var habits = habitTable.query();
 
-  outHabits = habits.map(function(h){
+  outHabits = habits.map(function(h) {
     daysAgo = relativeTime(h);
 
     var history = h.get('history')
 
     if (daysAgo === null)
       var timeTxt = "";
-    else if (daysAgo > 0)
-      var timeTxt = daysAgo + " days ago";
-    else
+
+    else if (daysAgo == 0)
       var timeTxt = "today";
+
+    else if (daysAgo == 1)
+      var timeTxt = "yesterday"
+
+    else if (daysAgo < 7)
+      var timeTxt = daysAgo + " days ago";
+
+    else {
+      var weeksAgo = Math.floor(daysAgo / 7);
+
+      if (weeksAgo == 1)
+        var timeTxt = "1 week ago";
+
+      else if (weeksAgo < 4)
+        var timeTxt = weeksAgo + " weeks ago";
+
+      else {
+        var monthsAgo = Math.floor(weeksAgo / 4)
+        if (monthsAgo == 1)
+          var timeTxt = "1 month ago";
+        else 
+          var timeTxt = monthsAgo + " months ago";
+      }
+        
+    }
+    
 
     habit = {
       id: h.getId(),
