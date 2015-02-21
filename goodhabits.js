@@ -75,11 +75,23 @@ assert = function(expr) {
 // view code
 
 var showingHabitDetails;
+var cursorPosStart, cursorPosEnd;
+var notificationTimeout;
 
 showHabitDetails = function(id) {
   showingHabitDetails = id;
   renderHabitDetails();
+  renderHabitList();
 };
+
+showNotification = function(text) {
+  $('#notification').text(text).addClass('show');
+  clearTimeout(notificationTimeout);
+
+  notificationTimeout = setTimeout(function() {
+    $('#notification').removeClass('show');
+  }, 2000);
+}
 
 renderDayBar = function() {
   var habits = habitTable.query(),
@@ -128,26 +140,52 @@ renderHabitList = function() {
 
   var habits = habitTable.query();
 
-  outHabits = habits.map(function(h){
+  outHabits = habits.map(function(h) {
     daysAgo = relativeTime(h);
 
     var history = h.get('history')
 
     if (daysAgo === null)
       var timeTxt = "";
-    else if (daysAgo > 0)
-      var timeTxt = daysAgo + " days ago";
-    else
+
+    else if (daysAgo == 0)
       var timeTxt = "today";
+
+    else if (daysAgo == 1)
+      var timeTxt = "yesterday"
+
+    else if (daysAgo < 7)
+      var timeTxt = daysAgo + " days ago";
+
+    else {
+      var weeksAgo = Math.floor(daysAgo / 7);
+
+      if (weeksAgo == 1)
+        var timeTxt = "1 week ago";
+
+      else if (weeksAgo < 4)
+        var timeTxt = weeksAgo + " weeks ago";
+
+      else {
+        var monthsAgo = Math.floor(weeksAgo / 4)
+        if (monthsAgo == 1)
+          var timeTxt = "1 month ago";
+        else 
+          var timeTxt = monthsAgo + " months ago";
+      }
+        
+    }
+    
 
     habit = {
       id: h.getId(),
       name: h.get('name'),
       recentDays: [],
       times: history.length(),
-      notes: 0, //h.notes.length,
+      notes: h.get('notes'),
       timeTxt: timeTxt,
-      daysAgo: daysAgo === null ? 1000 : daysAgo
+      daysAgo: daysAgo === null ? 1000 : daysAgo,
+      selected: h.getId() == showingHabitDetails
     };
 
     date = Date.create();
@@ -156,7 +194,7 @@ renderHabitList = function() {
         id: h.getId(),
         checked: hasHabitDate(h.getId(), date) ? "checked" : "",
         date: date.format('{yyyy}-{MM}-{dd}'),
-        title: date.format('{Weekday} {dd}.{MM}.{yyyy}')
+        title: date.format('{Weekday} {dd}.{MM}.{yyyy}'),
       };
 
       habit.recentDays.unshift(dateEntry);
@@ -172,6 +210,7 @@ renderHabitList = function() {
 
   var tmpl = $('#habitsTmpl').html();
   var out = Mustache.render(tmpl, {habits: outHabits});
+
   $('#habits').html(out);
 
   $('input[type="checkbox"]').change(function (e) {
@@ -179,54 +218,80 @@ renderHabitList = function() {
     toggleHabitDate(id, Date.create(this.dataset.date));
   });
 
-  $('#habits tr').click(function(e) {
+  if (showingHabitDetails) {
+    $(".notes textarea")[0].selectionStart = cursorPosStart;
+    $(".notes textarea")[0].selectionEnd = cursorPosEnd;
+    $(".notes textarea")[0].focus();
+
+    $(".notes textarea").bind('input propertychange', (function(e) {
+      var habit = getHabit(showingHabitDetails);
+
+      cursorPosStart = $(this).prop("selectionStart");
+      cursorPosEnd = $(this).prop("selectionEnd");
+
+      habit.set('notes', $(this).val());
+      showNotification("Saved note");
+    }).debounce(500));  
+  }
+
+  $('#habits tr .name').click(function(e) {
+    e.preventDefault();
+
     id = $(this).closest('tr').data('id');
-    showHabitDetails(id);
+    
+    if (id && id == showingHabitDetails)  {
+      showingHabitDetails = null
+    } else {
+      showHabitDetails(id);
+    }
+
+    renderHabitDetails();
+    renderHabitList();
   });
 };
 
 renderHabitDetails = function() {
-  if (!showingHabitDetails) {
-    $('#details').hide()  
-    return;
-  }
+  // if (!showingHabitDetails) {
+  //   $('#details').hide()  
+  //   return;
+  // }
 
-  var habit = getHabit(showingHabitDetails);
+  // var habit = getHabit(showingHabitDetails);
 
-  if (!habit)
-    return;
+  // if (!habit)
+  //   return;
 
-  var history = habit.get('history');
+  // var history = habit.get('history');
 
-  outHabitDetails = {
-    id: habit.getId(),
-    name: habit.get('name'),
-    times: history.length(),
-    notes: habit.get('notes')
-  }
+  // outHabitDetails = {
+  //   id: habit.getId(),
+  //   name: habit.get('name'),
+  //   times: history.length(),
+  //   notes: habit.get('notes')
+  // }
 
-  if ($('#notes textarea').is(':focus')) {
-    return;
-  }
+  // if ($('#notes textarea').is(':focus')) {
+  //   return;
+  // }
 
-  var tmpl = $('#habitDetailsTmpl').html()
-  var out = Mustache.render(tmpl, outHabitDetails);
-  $('#details').html(out).show();
+  // var tmpl = $('#habitDetailsTmpl').html()
+  // var out = Mustache.render(tmpl, outHabitDetails);
+  // $('#details').html(out).show();
 
-  $('#notes textarea').val(habit.get('notes'));
+  // $('#notes textarea').val(habit.get('notes'));
 
-  $("#notes textarea").bind('input propertychange', (function(e) {
-    var habit = getHabit(showingHabitDetails);
-    habit.set('notes', $(this).val())
-  }).debounce(500));
+  // $("#notes textarea").bind('input propertychange', (function(e) {
+  //   var habit = getHabit(showingHabitDetails);
+  //   habit.set('notes', $(this).val())
+  // }).debounce(500));
 
-  $('#details .close').click(function(e) {
-    showHabitDetails()
-  })
+  // $('#details .close').click(function(e) {
+  //   showHabitDetails()
+  // })
 
-  $('#details .trash').click(function(e) {
-    trashHabit(showingHabitDetails)
-  })
+  // $('#details .trash').click(function(e) {
+  //   trashHabit(showingHabitDetails)
+  // })
 }
 
 renderGraph = function() {
@@ -323,7 +388,7 @@ $(function() {
   $('#newHabit').submit(function(e) {
     name = $('input').val()
     $('input')[0].value = ""
-    e.preventDefault()
+    e.preventDefault();
 
     addHabit(name)
   });
