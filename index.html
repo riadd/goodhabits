@@ -39,7 +39,7 @@
     </tr>
 
     {{#habits}}
-      <tr data-id={{id}}>
+      <tr data-id={{id}} {{#highlight}}class="highlight"{{/highlight}}>
         <td class="checkboxes">
         {{#recentDays}}
           <input type="checkbox" title="{{title}}" data-date={{date}} {{checked}}>

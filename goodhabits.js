@@ -17,7 +17,8 @@ addHabit = function(name) {
   var newHabit = habitTable.insert({
     name: name,
     history: [],
-    notes: ''
+    notes: '',
+    lastUpdate: Date.create('in 3 seconds')
   });
 
   onHabitChanged()
@@ -56,6 +57,7 @@ habitDateIndex = function(id, date) {
 toggleHabitDate = function(id, date) {
   var habit = getHabit(id)
   var history = habit.get('history')
+  habit.set('lastUpdate', Date.create('in 3 seconds'));
 
   if (hasHabitDate(id, date)) {
     date = date.beginningOfDay()
@@ -139,6 +141,7 @@ renderHabitList = function() {
   };
 
   var habits = habitTable.query();
+  var now = Date.create();
 
   outHabits = habits.map(function(h) {
     daysAgo = relativeTime(h);
@@ -175,7 +178,9 @@ renderHabitList = function() {
       }
         
     }
-    
+
+    var lastUpdate = h.get('lastUpdate')
+    var highlight = lastUpdate == undefined ? false : lastUpdate.isAfter(now);
 
     habit = {
       id: h.getId(),
@@ -185,7 +190,8 @@ renderHabitList = function() {
       notes: h.get('notes'),
       timeTxt: timeTxt,
       daysAgo: daysAgo === null ? 1000 : daysAgo,
-      selected: h.getId() == showingHabitDetails
+      selected: h.getId() == showingHabitDetails,
+      highlight: highlight
     };
 
     date = Date.create();
@@ -231,7 +237,7 @@ renderHabitList = function() {
 
       habit.set('notes', $(this).val());
       showNotification("Saved note");
-    }).debounce(500));  
+    }).debounce(1000));  
   }
 
   $('#habits tr .name').click(function(e) {

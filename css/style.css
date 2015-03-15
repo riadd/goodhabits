@@ -124,6 +124,21 @@ h1 {
   padding: 20px;
 }
 
+@-webkit-keyframes highlight-fade {   
+   0% {background: yellow;}
+   100% {background: none;}
+}
+
+@keyframes highlight-fade {
+   0% {background: yellow;}
+   100% {background: none;}
+}
+
+#habits tr.highlight {
+  -webkit-animation: highlight-fade 2s ease-in 1;
+   animation: highlight-fade 2s ease-in 1;
+}
+
 #habits .name {
   width: 500px;
   font-size: 1.0em;
