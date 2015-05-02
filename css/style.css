@@ -75,7 +75,7 @@ h1 {
 }
 
 #newHabit {
-  display: none;
+  /*display: none;*/
   margin: 20px 40px 10px;
   font-size: 1.5em;
 }
@@ -160,6 +160,10 @@ h1 {
   min-width: 120px;
   padding: 8px 2px;
   vertical-align: top;
+}
+
+#habits .checkboxes input {
+  margin: 2px;
 }
 
 #habits .times, #habits .date, #habits .trash {
