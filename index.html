@@ -48,17 +48,17 @@
         <td class="name">{{name}}</td>
         <td class="times">{{times}}</td>
         <td class="date">{{timeTxt}}</td>
+        <td class="trash"><i class="fa fa-trash-o"></i></td>
       </tr>
       {{#selected}}
         <tr class="details">
-          <td colspan="4">
+          <td colspan="5">
             <form class="notes">
               <textarea type="text" placeholder="notes...">{{notes}}</textarea>
             </form>
           </td>
         </tr>
       {{/selected}}
-
     {{/habits}}
   </table>
 </script>
@@ -80,6 +80,4 @@
       <li><div>{{text}}</div><span>{{date}}</span></li>
     {{/notes}}
   </ul>
-
-  <div class="trash"><i class="fa fa-trash-o"></i></div>
 </script>

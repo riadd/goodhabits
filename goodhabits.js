@@ -254,6 +254,13 @@ renderHabitList = function() {
     renderHabitDetails();
     renderHabitList();
   });
+
+  $('#habits td.trash').click(function(e) {
+    e.preventDefault();
+
+    id = $(this).closest('tr').data('id');
+    trashHabit(id);
+  });
 };
 
 renderHabitDetails = function() {

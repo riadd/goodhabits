@@ -109,7 +109,6 @@ h1 {
 #habits tr {
   padding: 5px;
   margin: 5px;
-  border-bottom: 1px solid #dfdfdf;
 }
 
 #habits tr:hover {
@@ -149,6 +148,10 @@ h1 {
   font-weight: bold;
 }
 
+#habits td {
+  border-bottom: 1px solid #dfdfdf;
+}
+
 #habits .checkboxes {
   width: 120px;
   min-width: 120px;
@@ -156,17 +159,28 @@ h1 {
   vertical-align: top;
 }
 
-#habits .times, #habits .date {
+#habits .times, #habits .date, #habits .trash {
   font-size: 1.0em;
   color: #888;
   font-weight: 500;
   text-align: center;
   padding: 0px 4px;
-  width: 160px;
+  width: 120px;
 }
 
 #habits .date {
   min-width: 120px;
+}
+
+#habits .trash {
+  width: 30px;
+  border: none;
+  visibility: hidden;
+}
+
+#habits tr:hover .trash {
+  visibility: visible;
+  cursor: pointer;
 }
 
 #habits tr.details textarea {
@@ -235,8 +249,8 @@ h1 {
 
 #footer {
   text-align: center;
-  font-size: 0.8em;
-  color: #aaa;
-  padding: 10px;
+  font-size: 1.0em;
+  color: #333;
+  padding: 20px;
 }
 
