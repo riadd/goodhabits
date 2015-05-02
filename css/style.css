@@ -1,7 +1,6 @@
 body {
   font-family: helvetica;
   margin: 0px;
-  background-color: #FFEFE5;
 }
 
 h1 {
@@ -29,7 +28,8 @@ h1 {
 #mainBar {
   padding: 8px 20px;
   margin: 0;
-  background-color: #aaa;
+  color: #7D785F;
+  background-color: #423E35;
 }
 
 #dayBar {
@@ -114,8 +114,12 @@ h1 {
   margin: 5px;
 }
 
-#habits tr:hover {
-  background: #eee;
+#habits tbody tr td {
+  border-bottom: 1px solid #f2f2f2;
+}
+
+#habits tbody tr:hover td {
+  border-bottom: 1px solid #7D785F;
 }
 
 #habits tr td.name:hover {
@@ -143,16 +147,13 @@ h1 {
 
 #habits .name {
   width: 500px;
-  font-size: 1.0em;
+  color: #444;
+  font-size: 1.1em;
   padding: 5px 20px;
 }
 
 #habits .selected {
   font-weight: bold;
-}
-
-#habits td {
-  border-bottom: 1px solid #dfdfdf;
 }
 
 #habits .checkboxes {
@@ -181,13 +182,20 @@ h1 {
 
 #habits .trash {
   width: 30px;
-  border: none;
+  border-bottom: none;
   visibility: hidden;
 }
 
 #habits tr:hover .trash {
+  background-color: white;
+  border-bottom: none;
   visibility: visible;
   cursor: pointer;
+  font-size: 1.2em;
+}
+
+#habits tr .trash:hover {
+  color: red;
 }
 
 #habits tr.details textarea {
