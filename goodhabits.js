@@ -1,11 +1,20 @@
 var habits = [];
+var habitListeners = [];
 
 // model code
 
+addHabitListener = function(listener) {
+  habitListeners.push(listener);
+}
+
 onHabitChanged = function() {
-  renderDayBar();
-  renderHabitList();
-  renderHabitDetails();
+  for (var i=0; i<habitListeners.length; i++) {
+    habitListeners[i]();
+  }
+
+  // renderDayBar();
+  // renderHabitList();
+  // renderHabitDetails();
 };
 
 getHabit = function(id) {

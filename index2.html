@@ -31,13 +31,18 @@
 
 <script type="text/jsx">
   var NewHabit = React.createClass({
+    handleSubmit: function(e) {
+      addHabit("foo");
+      e.preventDefault();
+    },
+
     render: function() {
       return (
-        <form id="newHabit">
+        <form id="newHabit"  onSubmit={this.handleSubmit}>
           <input type="text" placeholder="New habit" />
         </form>
       );
-    }
+    },
   });
 
   var HabitList = React.createClass({
@@ -110,16 +115,33 @@
   })
 
   var PageContent = React.createClass({
+    componentDidMount: function() {
+      addHabitListener(this.onHabitChanged.bind(this));
+    },
+
+    getInitialState: function() {
+      return {habits:[]};
+    },
+
+    onHabitChanged: function() {
+      this.setState({habits: getHabitList()})
+    },
+
     render: function() {
       return (
         <div>
           <NewHabit />
-          <HabitList habits={this.props.habits} />
-          <div id="footer"><HabitCount habits={this.props.habits} /></div>
+          <HabitList habits={this.state.habits} />
+          <div id="footer"><HabitCount habits={this.state.habits} /></div>
         </div> 
       );
     }
   })
+
+  React.render(
+    <PageContent />,
+    document.getElementById('content')
+  );
 </script>
 
 <script id="habitsTmpl" type="x-tmpl-mustache">
