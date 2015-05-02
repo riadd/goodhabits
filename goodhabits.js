@@ -100,7 +100,7 @@ renderDayBar = function() {
     date = Date.create(),
     txt = "",
     added = false,
-    rewindDays = 14;
+    rewindDays = 50;
 
   date.rewind({day:rewindDays-1});
 
@@ -126,7 +126,7 @@ renderDayBar = function() {
 
 renderFooter = function() {
   var habits = habitTable.query();
-  $('#footer').html(habits.length+" Total Habits");
+  $('#footer').html(habits.length+" Habits");
 }
 
 renderHabitList = function() {
