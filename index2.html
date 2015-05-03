@@ -83,12 +83,16 @@
       trashHabit(this.props.id);
     },
 
+    handleCheckbox: function(date, e) {
+      toggleHabitDate(this.props.id, Date.create(date))
+    },
+
     render: function() {
       var checkboxes = this.props.recent.map(function (date) {
         return (
-          <input type="checkbox" checked={date.checked} />
+          <input key={date.date} type="checkbox" checked={date.checked} onChange={this.handleCheckbox.bind(this, date.date)} />
         );
-      });
+      }, this);
 
       return (
         <tr>
@@ -116,7 +120,7 @@
 
   var PageContent = React.createClass({
     componentDidMount: function() {
-      addHabitListener(this.onHabitChanged.bind(this));
+      addHabitListener(this.onHabitChanged);
     },
 
     getInitialState: function() {
