@@ -23,23 +23,23 @@
   <div id="connect" class="pure-button pure-button-primary">Connect to Dropbox</div>
   <div id="content"></div>
     
-<!-- 
-  <div id="habits"></div>
-  <div id="details"></div>-->
+  <!-- <div id="details"></div> -->
   
 </body>
 
 <script type="text/jsx">
   var NewHabit = React.createClass({
     handleSubmit: function(e) {
-      addHabit("foo");
+      var input = React.findDOMNode(this.refs.newHabit);
+      addHabit(input.value.trim());
+      input.value = "";
       e.preventDefault();
     },
 
     render: function() {
       return (
         <form id="newHabit"  onSubmit={this.handleSubmit}>
-          <input type="text" placeholder="New habit" />
+          <input type="text" placeholder="New habit" ref="newHabit" />
         </form>
       );
     },
@@ -147,42 +147,6 @@
     document.getElementById('content')
   );
 </script>
-
-<script id="habitsTmpl" type="x-tmpl-mustache">
-  <table>
-    <tr>
-      <th></th>
-
-      <th>Name</th>
-      <th>Times</th>
-      <th>Last Time</th>
-    </tr>
-
-    {{#habits}}
-      <tr data-id={{id}} {{#highlight}}class="highlight"{{/highlight}}>
-        <td class="checkboxes">
-        {{#recentDays}}
-          <input type="checkbox" title="{{title}}" data-date={{date}} {{checked}}>
-        {{/recentDays}}
-        </td>
-        <td class="name">{{name}}</td>
-        <td class="times">{{times}}</td>
-        <td class="date">{{timeTxt}}</td>
-        <td class="trash"><i class="fa fa-trash-o"></i></td>
-      </tr>
-      {{#selected}}
-        <tr class="details">
-          <td colspan="5">
-            <form class="notes">
-              <textarea type="text" placeholder="notes...">{{notes}}</textarea>
-            </form>
-          </td>
-        </tr>
-      {{/selected}}
-    {{/habits}}
-  </table>
-</script>
-
 
 <script id="habitDetailsTmpl" type="x-tmpl-mustache">
   <div class="close"><i class="fa fa-times-circle"></i></div>
