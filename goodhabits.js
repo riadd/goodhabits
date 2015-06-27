@@ -1,12 +1,20 @@
 var habits = [];
+var habitListeners = [];
 
 // model code
 
+addHabitListener = function(listener) {
+  habitListeners.push(listener);
+}
+
 onHabitChanged = function() {
-  renderDayBar();
-  renderHabitList();
-  renderHabitDetails();
-  renderFooter();
+  for (var i=0; i<habitListeners.length; i++) {
+    habitListeners[i]();
+  }
+
+  // renderDayBar();
+  // renderHabitList();
+  // renderHabitDetails();
 };
 
 getHabit = function(id) {
@@ -17,15 +25,17 @@ addHabit = function(name) {
   var newHabit = habitTable.insert({
     name: name,
     history: [],
-    notes: ''
+    notes: '',
+    lastUpdate: Date.create('in 3 seconds'),
+    archived: false
   });
 
   onHabitChanged()
 }
 
-trashHabit = function(id) {
+archiveHabit = function(id) {
   var habit = getHabit(id);
-  habit.deleteRecord();
+  habit.set('archived', true);
 
   if (showingHabitDetails == id)
     showingHabitDetails = null
@@ -56,6 +66,7 @@ habitDateIndex = function(id, date) {
 toggleHabitDate = function(id, date) {
   var habit = getHabit(id)
   var history = habit.get('history')
+  habit.set('lastUpdate', Date.create('in 3 seconds'));
 
   if (hasHabitDate(id, date)) {
     date = date.beginningOfDay()
@@ -98,7 +109,7 @@ renderDayBar = function() {
     date = Date.create(),
     txt = "",
     added = false,
-    rewindDays = 14;
+    rewindDays = 50;
 
   date.rewind({day:rewindDays-1});
 
@@ -122,12 +133,7 @@ renderDayBar = function() {
   $('#dayBar').html(txt);
 }
 
-renderFooter = function() {
-  var habits = habitTable.query();
-  $('#footer').html(habits.length+" Total Habits");
-}
-
-renderHabitList = function() {
+getHabitList = function() {
   relativeTime = function(habit) {
     var history = habit.get('history');
 
@@ -139,6 +145,12 @@ renderHabitList = function() {
   };
 
   var habits = habitTable.query();
+
+  habits = habits.filter(function(h) {
+    return !h.get('archived');
+  });
+
+  var now = Date.create();
 
   outHabits = habits.map(function(h) {
     daysAgo = relativeTime(h);
@@ -175,7 +187,9 @@ renderHabitList = function() {
       }
         
     }
-    
+
+    var lastUpdate = h.get('lastUpdate')
+    var highlight = lastUpdate == undefined ? false : lastUpdate.isAfter(now);
 
     habit = {
       id: h.getId(),
@@ -185,7 +199,8 @@ renderHabitList = function() {
       notes: h.get('notes'),
       timeTxt: timeTxt,
       daysAgo: daysAgo === null ? 1000 : daysAgo,
-      selected: h.getId() == showingHabitDetails
+      selected: h.getId() == showingHabitDetails,
+      highlight: highlight
     };
 
     date = Date.create();
@@ -208,46 +223,62 @@ renderHabitList = function() {
     return h.daysAgo * 1000 - h.times;
   });
 
-  var tmpl = $('#habitsTmpl').html();
-  var out = Mustache.render(tmpl, {habits: outHabits});
+  return outHabits;
+}
 
-  $('#habits').html(out);
+renderHabitList = function() {
+  // var tmpl = $('#habitsTmpl').html();
+  // var out = Mustache.render(tmpl, {habits: getHabitList()});
 
-  $('input[type="checkbox"]').change(function (e) {
-    id = $(this).closest('tr').data('id');
-    toggleHabitDate(id, Date.create(this.dataset.date));
-  });
+  React.render(
+    React.createElement(PageContent, {habits:getHabitList()}),
+    document.getElementById('content')
+  );
 
-  if (showingHabitDetails) {
-    $(".notes textarea")[0].selectionStart = cursorPosStart;
-    $(".notes textarea")[0].selectionEnd = cursorPosEnd;
-    $(".notes textarea")[0].focus();
+  // $('#habits').html(out);
 
-    $(".notes textarea").bind('input propertychange', (function(e) {
-      var habit = getHabit(showingHabitDetails);
+  // $('input[type="checkbox"]').change(function (e) {
+  //   id = $(this).closest('tr').data('id');
+  //   toggleHabitDate(id, Date.create(this.dataset.date));
+  // });
 
-      cursorPosStart = $(this).prop("selectionStart");
-      cursorPosEnd = $(this).prop("selectionEnd");
+  // if (showingHabitDetails) {
+  //   $(".notes textarea")[0].selectionStart = cursorPosStart;
+  //   $(".notes textarea")[0].selectionEnd = cursorPosEnd;
+  //   $(".notes textarea")[0].focus();
 
-      habit.set('notes', $(this).val());
-      showNotification("Saved note");
-    }).debounce(500));  
-  }
+  //   $(".notes textarea").bind('input propertychange', (function(e) {
+  //     var habit = getHabit(showingHabitDetails);
 
-  $('#habits tr .name').click(function(e) {
-    e.preventDefault();
+  //     cursorPosStart = $(this).prop("selectionStart");
+  //     cursorPosEnd = $(this).prop("selectionEnd");
 
-    id = $(this).closest('tr').data('id');
+  //     habit.set('notes', $(this).val());
+  //     showNotification("Saved note");
+  //   }).debounce(1000));  
+  // }
+
+  // $('#habits tr .name').click(function(e) {
+  //   e.preventDefault();
+
+  //   id = $(this).closest('tr').data('id');
     
-    if (id && id == showingHabitDetails)  {
-      showingHabitDetails = null
-    } else {
-      showHabitDetails(id);
-    }
+  //   if (id && id == showingHabitDetails)  {
+  //     showingHabitDetails = null
+  //   } else {
+  //     showHabitDetails(id);
+  //   }
 
-    renderHabitDetails();
-    renderHabitList();
-  });
+  //   renderHabitDetails();
+  //   renderHabitList();
+  // });
+
+  // $('#habits td.trash').click(function(e) {
+  //   e.preventDefault();
+
+  //   id = $(this).closest('tr').data('id');
+  //   trashHabit(id);
+  // });
 };
 
 renderHabitDetails = function() {
