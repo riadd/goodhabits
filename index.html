@@ -79,8 +79,8 @@
   });
 
   var Habit = React.createClass({
-    handleTrash: function() {
-      trashHabit(this.props.id);
+    handleArchive: function() {
+      archiveHabit(this.props.id);
     },
 
     handleCheckbox: function(date, e) {
@@ -95,13 +95,13 @@
       }, this);
 
       return (
-        <tr>
+        <tr onClick={this.handleClick}>
           <td className="checkboxes">{checkboxes}</td>
           <td className="name">{this.props.name}</td>
           <td className="times">{this.props.times}</td>
           <td className="date">{this.props.timeTxt}</td>
-          <td className="trash" onClick={this.handleTrash}>
-            <i className="fa fa-trash-o"></i>
+          <td className="archive" onClick={this.handleArchive}>
+            <i className="fa fa-archive"></i>
           </td>
         </tr>
       );
@@ -113,7 +113,7 @@
     render: function() {
       var count = this.props.habits.length;
       return (
-        <span>{count} Habits</span>
+        <span>{count} Active</span>
       );
     }
   })

@@ -119,7 +119,8 @@ h1 {
 }
 
 #habits tbody tr:hover td {
-  border-bottom: 1px solid #7D785F;
+  /*border-bottom: 1px solid #D6CEA3;*/
+  background: #2AD2F7;
 }
 
 #habits tr td.name:hover {
@@ -167,7 +168,7 @@ h1 {
   margin: 2px;
 }
 
-#habits .times, #habits .date, #habits .trash {
+#habits .times, #habits .date, #habits .archive {
   font-size: 1.0em;
   color: #888;
   font-weight: 500;
@@ -180,21 +181,21 @@ h1 {
   min-width: 120px;
 }
 
-#habits .trash {
+#habits .archive {
   width: 30px;
   border-bottom: none;
   visibility: hidden;
 }
 
-#habits tr:hover .trash {
+#habits tr:hover .archive {
   background-color: white;
   border-bottom: none;
   visibility: visible;
   cursor: pointer;
-  font-size: 1.2em;
+  font-size: 1.3em;
 }
 
-#habits tr .trash:hover {
+#habits tr .archive:hover {
   color: red;
 }
 
@@ -230,7 +231,7 @@ h1 {
   color: gray;
 }
 
-#details .trash {
+#details .archive {
   text-align: right;
   color: gray;
 }
@@ -260,6 +261,32 @@ h1 {
   font-size: 12px;
 }
 
+/* lightbox */
+
+#lightbox {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
+#lightbox form {
+  border: 1px solid #ccc;
+  padding: 50px;
+  background: white;
+  margin: 100px auto;
+  width: 600px;
+  text-align: center;
+}
+
+#lightbox form textarea {
+  width: 100%;
+  height: 400px;
+}
+
 /* footer */
 
 #footer {
@@ -268,4 +295,6 @@ h1 {
   color: #333;
   padding: 20px;
 }
+
+/* checkboxes from http://cssdeck.com/labs/css-checkbox-styles */
 

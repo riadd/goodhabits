@@ -26,15 +26,16 @@ addHabit = function(name) {
     name: name,
     history: [],
     notes: '',
-    lastUpdate: Date.create('in 3 seconds')
+    lastUpdate: Date.create('in 3 seconds'),
+    archived: false
   });
 
   onHabitChanged()
 }
 
-trashHabit = function(id) {
+archiveHabit = function(id) {
   var habit = getHabit(id);
-  habit.deleteRecord();
+  habit.set('archived', true);
 
   if (showingHabitDetails == id)
     showingHabitDetails = null
@@ -144,6 +145,11 @@ getHabitList = function() {
   };
 
   var habits = habitTable.query();
+
+  habits = habits.filter(function(h) {
+    return !h.get('archived');
+  });
+
   var now = Date.create();
 
   outHabits = habits.map(function(h) {
